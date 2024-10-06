@@ -18,7 +18,8 @@ public class User {
     private String address;
     private int point;
     private String role;
-    
+    private int user_status;
+
     public int getUser_id() {
         return user_id;
     }
@@ -83,10 +84,18 @@ public class User {
         this.role = role;
     }
 
+    public int getUser_status() {
+        return user_status;
+    }
+
+    public void setUser_status(int user_status) {
+        this.user_status = user_status;
+    }
+
     public User() {
     }
 
-    public User(int user_id, String username, String password, String email, String phone_number, String address, int point, String role) {
+    public User(int user_id, String username, String password, String email, String phone_number, String address, int point, String role, int user_status) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
@@ -95,6 +104,7 @@ public class User {
         this.address = address;
         this.point = point;
         this.role = role;
+        this.user_status = user_status;
     }
 
 }
