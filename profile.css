@@ -1,0 +1,73 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 7, 2024, 9:49:24 PM
+    Author     : Luu Chi Khanh-CE181175
+*/
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #d0d0d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.account-details-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    width: 600px;
+}
+
+.account-details-container img {
+    width: 200px;
+    height: 200px;
+    margin-right: 20px;
+}
+
+.account-info {
+    flex: 1;
+}
+
+h2 {
+    color: #f1691a;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f6eeee;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f77225;
+    color: white;
+}
+
+.buttons button:hover {
+    background-color: #f1691a;
+}
