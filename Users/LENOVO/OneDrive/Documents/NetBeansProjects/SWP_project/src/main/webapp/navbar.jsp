@@ -45,13 +45,13 @@
                         <a class="nav-link item-txt" href="#">Đơn hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">| Giỏ hàng</a>
+                        <a class="nav-link item-txt" href="#">Giỏ hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">| Thông báo</a>
+                        <a class="nav-link item-txt" href="#">Thông báo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">| Tài khoản</a>
+                        <a class="nav-link item-txt" href="#">Tài khoản</a>
                     </li>
                 </ul>
             </div>
