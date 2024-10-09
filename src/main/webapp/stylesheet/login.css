@@ -1,0 +1,100 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 9, 2024, 11:28:38 PM
+    Author     : Luu Chi Khanh-CE181175
+*/
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #d0d0d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 320px;
+}
+
+.logo img {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #f1691a;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f6eeee;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.remember-me-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.remember-me-container input {
+    margin-right: 8px;
+}
+
+.forgot-password {
+    color: #3fb2f0;
+    font-size: 13px;
+    text-align: right;
+    margin-left: auto;
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: #f77225;
+    color: white;
+}
+
+.google-login-btn {
+    background-color: #00c2ff;
+    color: white;
+}
+
+p {
+    margin-top: 20px;
+    color: #3fb2f0;
+    font-size: 14px;
+}
+
+.register-link {
+    color: #3fb2f0;
+    text-decoration: none;
+}
