@@ -16,15 +16,21 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <style>
             .editNavbar{
+                border: solid;
+                border-width: 2px;
                 background: orange;
                 position: fixed;
                 width: 100%;
             }
             .logo {
                 position: absolute;
-                width: 60px;
-                height: 56px;
-                margin-top: -28px;
+                width: 70px;
+                height: 68px;
+                margin-top: -34px;
+            }
+            .item-txt{
+                font-size: 24px;
+                font-weight: bold;
             }
         </style>
     </head>
@@ -36,16 +42,16 @@
                 </a>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Đơn hàng</a>
+                        <a class="nav-link item-txt" href="#">Đơn hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Giỏ hàng</a>
+                        <a class="nav-link item-txt" href="#">| Giỏ hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Thông báo</a>
+                        <a class="nav-link item-txt" href="#">| Thông báo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tài khoản</a>
+                        <a class="nav-link item-txt" href="#">| Tài khoản</a>
                     </li>
                 </ul>
             </div>
