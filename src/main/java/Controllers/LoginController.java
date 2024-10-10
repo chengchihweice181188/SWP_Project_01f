@@ -113,13 +113,11 @@ public class LoginController extends HttpServlet {
             // Phân quyền dựa trên role_id
             int roleId = acc.getRole(); // Lấy role_id từ đối tượng Account
 
-            if (roleId == 0) {
+            if (roleId == 0 || roleId== 1) {
                 // Admin
-                dispatcher = request.getRequestDispatcher("admin.jsp");
-            } else if (roleId == 1) {
-                // Staff
-                dispatcher = request.getRequestDispatcher("admin.jsp");
-            } else {
+                dispatcher = request.getRequestDispatcher("manageBar.jsp");
+            } 
+             else {
                 // Customer
                 dispatcher = request.getRequestDispatcher("index.jsp");
             }
