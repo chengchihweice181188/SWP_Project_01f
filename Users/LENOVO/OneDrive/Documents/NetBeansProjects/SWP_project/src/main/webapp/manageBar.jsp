@@ -16,46 +16,43 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <style>
             .sidebar {
-                width: 200px;
+                width: 210px;
                 background-color: orange;
-                height: 112vh;
-                margin-left: -120px;
+                height: 100vh;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                margin-left: 0;
             }
             .logo{
-                width: 198px;
-                height: 170px;
+                width: 100%;
+                height: 100%;
             }
             .text {
                 text-decoration: none;
                 color: inherit;
                 font-size: 20px;
+                margin: 10px;
             }
         </style>
     </head>
-    <body>
-        <div class="container">
-            <div class="row g-1">
-                <div class="col-2 sidebar">
-                    <div>
-                        <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
-                    </div>
-                    <ul>
-                        <li><a href="#" class="text">Quản lí đơn hàng</a></li><br>
-                        <li><a href="#" class="text">Quản lý danh mục</a></li><br>
-                        <li><a href="#" class="text">Quản lý sản phẩm</a></li><br>
-                        <li><a href="#" class="text">Quản lý lựa chọn</a></li><br>
-                        <li><a href="#" class="text">Quản lý khuyến mãi</a></li><br>
-                        <li><a href="#" class="text">Thống kê doanh thu</a></li><br>
-                        <li><a href="#" class="text">Thống kê sản phẩm</a></li><br>
-                        <li><a href="#" class="text">Xem danh sách đánh giá</a></li><br>
-                        <li><a href="#" class="text">Quản lí tài khoản</a></li><br>
-                        <button class="btn btn-danger">Logout</button>
-                    </ul>
-                </div>
-                <div class="col-10">
-                    sadasdada
-                </div>
+    <body style="background: #fff9f0">
+        <div class="sidebar">
+            <div>
+                <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
             </div>
+            <ul>
+                <li><a href="#" class="text">Quản lí đơn hàng</a></li>
+                <li><a href="#" class="text">Quản lý danh mục</a></li>
+                <li><a href="#" class="text">Quản lý sản phẩm</a></li>
+                <li><a href="#" class="text">Quản lý lựa chọn</a></li>
+                <li><a href="#" class="text">Quản lý khuyến mãi</a></li>
+                <li><a href="#" class="text">Thống kê doanh thu</a></li>
+                <li><a href="#" class="text">Thống kê sản phẩm</a></li>
+                <li><a href="#" class="text">Xem danh sách đánh giá</a></li>
+                <li><a href="#" class="text">Quản lí tài khoản</a></li>
+                <button class="btn btn-danger">Logout</button>
+            </ul>
         </div>
     </body>
 </html>
