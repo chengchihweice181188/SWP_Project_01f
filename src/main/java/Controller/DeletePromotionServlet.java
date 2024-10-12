@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.PromotionDAO;
+import DAO.VoucherDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -70,11 +71,42 @@ public class DeletePromotionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String type = request.getParameter("type");
+        if (type.equals("promotion")) {
+            handleDeletePromotion(request, response);
+        } else if (type.equals("voucher")) {
+            handleDeleteVoucher(request, response);
+        } else {
+            request.getSession().setAttribute("errorMessage", "Unknown request type.");
+            response.sendRedirect(request.getContextPath() + "/Promotion");
+        }
+    }
+
+    protected void handleDeletePromotion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             int id = Integer.parseInt(request.getParameter("promotionId"));
             PromotionDAO promotionDAO = new PromotionDAO();
 
             if (promotionDAO.deletePromotion(id)) {
+                request.getSession().setAttribute("successMessage", "Xóa khuyến mãi thành công!");
+            } else {
+                request.getSession().setAttribute("errorMessage", "Xóa khuyến mãi thất bại.");
+            }
+        } catch (Exception e) {
+            request.getSession().setAttribute("errorMessage", "Dữ liệu không hợp lệ: " + e.getMessage());
+        }
+        response.sendRedirect("/Promotion");
+
+    }
+
+    protected void handleDeleteVoucher(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("VoucherId"));
+            VoucherDAO voucherDAO = new VoucherDAO();
+
+            if (voucherDAO.deleteVoucher(id)) {
                 request.getSession().setAttribute("successMessage", "Xóa khuyến mãi thành công!");
             } else {
                 request.getSession().setAttribute("errorMessage", "Xóa khuyến mãi thất bại.");

@@ -1,3 +1,9 @@
+<%-- 
+    Document   : voucherEdit.jsp
+    Created on : Oct 12, 2024, 3:13:49 PM
+    Author     : Bang
+--%>
+
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -8,8 +14,8 @@
                    user="sa"
                    password="sa123" />
 
-<sql:query dataSource="${dataSource}" var="productList">
-    SELECT product_id, product_name FROM Products WHERE is_hidden = 0
+<sql:query dataSource="${dataSource}" var="voucherList">
+    SELECT voucher_id, voucher_code FROM Vouchers WHERE is_hidden = 0
 </sql:query>
 
 <!DOCTYPE html>
@@ -17,22 +23,21 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chỉnh sửa Khuyến Mãi</title>
+        <title>Chỉnh sửa Voucher</title>
         <style>
             /* CSS của bạn */
         </style>
         <script>
-            // Hàm mở popup chỉnh sửa khuyến mãi
-            function openEditPromotionPopup(id, discount, validFrom, validTo, productId) {
-                console.log('Received data:', {id, discount, validFrom, validTo, productId}); // Debugging
-                document.getElementById('editPromotionOverlay').style.display = 'flex';
-                document.getElementById('editPromotionId').value = id;
-                document.getElementById('editPromotionDiscount').value = discount;
-                document.getElementById('editPromotionValidFrom').value = validFrom;
-                document.getElementById('editPromotionValidTo').value = validTo;
-                document.getElementById('editProductId').value = productId;
+            // Hàm mở popup chỉnh sửa voucher
+            function openEditVoucherPopup(id, code, discount, validFrom, validTo) {
+                console.log('Received data:', {id, code, discount, validFrom, validTo}); // Debugging
+                document.getElementById('editVoucherOverlay').style.display = 'flex';
+                document.getElementById('editVoucherId').value = id;
+                document.getElementById('editVoucherCode').value = code;
+                document.getElementById('editVoucherDiscount').value = discount;
+                document.getElementById('editVoucherValidFrom').value = validFrom;
+                document.getElementById('editVoucherValidTo').value = validTo;
             }
-
 
             // Hàm định dạng ngày giờ cho input datetime-local
             function formatDateTimeLocal(dateTimeString) {
@@ -52,11 +57,12 @@
                 return `${year}-${month}-${day}T${hours}:${minutes}`;
                     }
 
-
-                    // Hàm đóng popup chỉnh sửa khuyến mãi
-                    function closeEditPromotionPopup() {
-                        document.getElementById('editPromotionOverlay').style.display = 'none';
+                    // Hàm đóng popup chỉnh sửa voucher
+                    function closeEditVoucherPopup() {
+                        document.getElementById('editVoucherOverlay').style.display = 'none';
                     }
+
+                    // Hàm kiểm tra giá trị giảm giá
                     function validateDiscount(input) {
                         let value = parseInt(input.value);
                         if (value < 0 || value > 100 || isNaN(value)) {
@@ -67,9 +73,11 @@
                             input.value = Math.round(value);
                         }
                     }
-                    function validatePromotionDates() {
-                        const startDateInput = document.getElementById('editPromotionValidFrom');
-                        const endDateInput = document.getElementById('editPromotionValidTo');
+
+                    // Hàm kiểm tra ngày khuyến mãi hợp lệ
+                    function validateVoucherDates() {
+                        const startDateInput = document.getElementById('editVoucherValidFrom');
+                        const endDateInput = document.getElementById('editVoucherValidTo');
                         const startDate = new Date(startDateInput.value);
                         const endDate = new Date(endDateInput.value);
 
@@ -84,24 +92,21 @@
         </script>
     </head>
     <body>
-        <div id="editPromotionOverlay" class="overlay">
+        <div id="editVoucherOverlay" class="overlay">
             <div class="popup">
-                <span class="close-btn" onclick="closeEditPromotionPopup()">&#10006;</span>
-                <h2>Chỉnh sửa Khuyến Mãi</h2>
+                <span class="close-btn" onclick="closeEditVoucherPopup()">&#10006;</span>
+                <h2>Chỉnh sửa Voucher</h2>
                 <form action="${pageContext.request.contextPath}/UpdatePromotionServlet" method="post">
-                    <input type="hidden" name="promotionId" id="editPromotionId">
-                    <input type="number" name="promotionDiscount" id="editPromotionDiscount" placeholder="Nhập % giảm giá" required min="0" max="100" step="1" oninput="validateDiscount(this)">
-                    <input type="datetime-local" name="promotionValidFrom" id="editPromotionValidFrom" required onchange="validatePromotionDates()">
-                    <input type="datetime-local" name="promotionValidTo" id="editPromotionValidTo" required onchange="validatePromotionDates()">
-                    <input type="hidden" name="type" value="promotion">
+                    <input type="hidden" name="voucherId" id="editVoucherId">
+                    <input type="text" name="voucherCode" id="editVoucherCode" placeholder="Mã voucher" required>
+                    <input type="number" name="voucherDiscount" id="editVoucherDiscount" placeholder="Nhập % giảm giá" required min="0" max="100" step="1" oninput="validateDiscount(this)">
+                    <input type="datetime-local" name="voucherValidFrom" id="editVoucherValidFrom" required onchange="validateVoucherDates()">
+                    <input type="datetime-local" name="voucherValidTo" id="editVoucherValidTo" required onchange="validateVoucherDates()">
+                    <input type="hidden" name="type" value="voucher">
 
-                    <select name="productId" id="editProductId" required>
-                        <c:forEach var="product" items="${productList.rows}">
-                            <option value="${product.product_id}">${product.product_name}</option>
-                        </c:forEach>
-                    </select>
+
                     <button type="submit">Lưu</button>
-                    <button type="button" onclick="closeEditPromotionPopup()">Hủy</button>
+                    <button type="button" onclick="closeEditVoucherPopup()">Hủy</button>
                 </form>
             </div>
         </div>

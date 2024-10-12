@@ -53,6 +53,21 @@
             function closeDeletePromotionPopup() {
                 document.getElementById('deletePromotionOverlay').style.display = 'none';
             }
+            // Hàm mở popup chỉnh sửa voucher
+            function openEditVoucherPopup(id, code, discount, validFrom, validTo) {
+                console.log('Received data:', {id, code, discount, validFrom, validTo}); // Debugging
+                document.getElementById('editVoucherOverlay').style.display = 'flex';
+                document.getElementById('editVoucherId').value = id;
+                document.getElementById('editVoucherCode').value = code;
+                document.getElementById('editVoucherDiscount').value = discount;
+                document.getElementById('editVoucherValidFrom').value = validFrom;
+                document.getElementById('editVoucherValidTo').value = validTo;
+            }
+            function openDeleteVoucherPopup(id) {
+                document.getElementById('deleteVoucherOverlay').style.display = 'flex';
+                document.getElementById('deleteVoucherId').value = id;
+            }
+
         </script>
     </head>
     <body>
@@ -72,6 +87,25 @@
             </div>
 
             <div class="main-content">
+                <%-- Display success or error messages --%>
+                <%
+                    String successMessage = (String) request.getSession().getAttribute("successMessage");
+                    String errorMessage = (String) request.getSession().getAttribute("errorMessage");
+
+                    if (successMessage != null) {
+                %>
+                <div class="alert alert-success"><%= successMessage%></div>
+                <%
+                        request.getSession().removeAttribute("successMessage");
+                    }
+
+                    if (errorMessage != null) {
+                %>
+                <div class="alert alert-error"><%= errorMessage%></div>
+                <%
+                        request.getSession().removeAttribute("errorMessage");
+                    }
+                %>
                 <div class="header">
                     <h2>Quản lý khuyến mãi</h2>
                     <button onclick="openCreatePromotionPopup()" class="btn-add">Thêm khuyến mãi</button>
@@ -127,18 +161,44 @@
                     <h3>Danh sách Vouchers</h3>
                     <div class="promo-section">
                         <%
+                            // Lấy danh sách các voucher từ request attribute
                             List<Voucher> vouchers = (List<Voucher>) request.getAttribute("vouchers");
+
+                            // Kiểm tra nếu danh sách voucher không rỗng
                             if (vouchers != null && !vouchers.isEmpty()) {
                                 for (Voucher voucher : vouchers) {
+                                    // Định dạng ngày giờ cho validFrom và validTo của voucher
+                                    String validFromFormatted = "";
+                                    String validToFormatted = "";
+                                    if (voucher.getVoucherValidFrom() != null) {
+                                        validFromFormatted = voucher.getVoucherValidFrom().format(dateTimeFormatter);
+                                    }
+                                    if (voucher.getVoucherValidTo() != null) {
+                                        validToFormatted = voucher.getVoucherValidTo().format(dateTimeFormatter);
+                                    }
+
                         %>
                         <div class="promo-item">
                             <img src="https://via.placeholder.com/60" alt="Voucher">
                             <div>Mã voucher: <%= voucher.getVoucherCode()%></div>
                             <div>Giảm giá: <%= voucher.getVoucherDiscount()%>%</div>
-                            <div>Thời gian: <%= voucher.getVoucherValidFrom()%> - <%= voucher.getVoucherValidTo()%></div>
+                            <div>Thời gian: <%= validFromFormatted%> - <%= validToFormatted%></div>
                             <div class="actions">
-                                <button class="edit-btn" onclick="openEditPromotionPopup(<%= voucher.getVoucherID()%>, <%= voucher.getVoucherDiscount()%>, '<%= voucher.getVoucherValidFrom()%>', '<%= voucher.getVoucherValidTo()%>', null)">Sửa</button>
-                                <button class="delete-btn" onclick="openDeletePromotionPopup(<%= voucher.getVoucherID()%>)">Xóa</button>
+                                <button class="edit-btn" 
+                                        onclick="openEditVoucherPopup(
+                                                        '<%= voucher.getVoucherID()%>',
+                                                        '<%= voucher.getVoucherCode()%>',
+                                                        '<%= voucher.getVoucherDiscount()%>',
+                                                        '<%= validFromFormatted%>',
+                                                        '<%= validToFormatted%>'
+                                                        )">
+                                    Chỉnh sửa
+                                </button>
+
+                                <button class="delete-btn" 
+                                        onclick="openDeleteVoucherPopup('<%= voucher.getVoucherID()%>')">
+                                    Xóa
+                                </button>
                             </div>
                         </div>
                         <%
@@ -146,16 +206,17 @@
                         } else {
                         %>
                         <p>Không có voucher nào.</p>
-                        <% }%>
-
+                        <%
+                            }
+                        %>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Nhúng các popup vào trang -->
-        <jsp:include page="promotionCreate.jsp"></jsp:include>
-        <jsp:include page="promotionEdit.jsp"></jsp:include>
-        <jsp:include page="promotionDelete.jsp"></jsp:include>
-    </body>
-</html>
+
+                    <!-- Nhúng các popup vào trang -->
+                    <jsp:include page="voucherDelete.jsp"></jsp:include>
+                    <jsp:include page="voucherEdit.jsp"></jsp:include>
+                    <jsp:include page="promotionCreate.jsp"></jsp:include>
+                    <jsp:include page="promotionEdit.jsp"></jsp:include>
+                    <jsp:include page="promotionDelete.jsp"></jsp:include>
+                    </body>
+                    </html>

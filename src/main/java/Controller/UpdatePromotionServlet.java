@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.PromotionDAO;
+import DAO.VoucherDAO;
 import Model.Promotion;
+import Model.Voucher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -73,6 +75,19 @@ public class UpdatePromotionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String type = request.getParameter("type");
+        if (type.equals("promotion")) {
+            handlePromotionUpdate(request, response);
+        } else if (type.equals("voucher")) {
+            handleVoucherUpdate(request, response);
+        } else {
+            request.getSession().setAttribute("errorMessage", "Unknown request type.");
+            response.sendRedirect(request.getContextPath() + "/Promotion");
+        }
+    }
+
+    private void handlePromotionUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         try {
             int id = Integer.parseInt(request.getParameter("promotionId"));
             int discount = Integer.parseInt(request.getParameter("promotionDiscount"));
@@ -113,6 +128,54 @@ public class UpdatePromotionServlet extends HttpServlet {
             request.getSession().setAttribute("errorMessage", "Dữ liệu không hợp lệ: " + e.getMessage());
         }
         response.sendRedirect("/Promotion");
+
+    }
+
+    private void handleVoucherUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("voucherId"));
+            String code = request.getParameter("voucherCode");
+            int discount = Integer.parseInt(request.getParameter("voucherDiscount"));
+            String validFromStr = request.getParameter("voucherValidFrom");
+            String validToStr = request.getParameter("voucherValidTo");
+            boolean voucherStatus = true; // or get from form if applicable
+            boolean isHidden = false;
+
+            // Validate discount
+            if (discount < 0 || discount > 100) {
+                request.getSession().setAttribute("errorMessage", "Giảm giá phải từ 0 đến 100%");
+                response.sendRedirect(request.getContextPath() + "/Promotion");
+                return;
+            }
+
+            // Parse date strings into LocalDateTime
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime validFrom = LocalDateTime.parse(validFromStr, formatter);
+            LocalDateTime validTo = LocalDateTime.parse(validToStr, formatter);
+
+            // Validate dates
+            if (validFrom.isAfter(validTo)) {
+                request.getSession().setAttribute("errorMessage", "Ngày bắt đầu không được sau ngày kết thúc");
+                response.sendRedirect(request.getContextPath() + "/Promotion");
+                return;
+            }
+
+            // Create Voucher object
+            Voucher voucher = new Voucher(id, code, discount, validFrom, validTo, voucherStatus, isHidden);
+            VoucherDAO voucherDAO = new VoucherDAO();
+
+            // Update voucher in database
+            if (voucherDAO.updateVoucher(voucher)) {
+                request.getSession().setAttribute("successMessage", "Cập nhật voucher thành công!");
+            } else {
+                request.getSession().setAttribute("errorMessage", "Cập nhật voucher thất bại.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("errorMessage", "Dữ liệu không hợp lệ: " + e.getMessage());
+        }
+        response.sendRedirect(request.getContextPath() + "/Promotion");
     }
 
     /**

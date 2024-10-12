@@ -15,20 +15,19 @@
         <title>Quản lý danh mục</title>
         <script>
             function openPopup(popupId) {
-            document.querySelector(.overlay[data - id = "${popupId}"]).style.display = 'flex';
+                document.querySelector('.overlay[data-id="' + popupId + '"]').style.display = 'flex';
             }
 
             function closePopup(popupId) {
-            document.querySelector(.overlay[data - id = "${popupId}"]).style.display = 'none';
-            }
-            // Hàm hiển thị popup lỗi
-            function showError(message) {
-            alert(message); // Sử dụng alert hoặc dùng popup tùy ý
+                document.querySelector('.overlay[data-id="' + popupId + '"]').style.display = 'none';
             }
 
-            // Hàm hiển thị popup thành công
+            function showError(message) {
+                alert(message);
+            }
+
             function showSuccess(message) {
-            alert(message);
+                alert(message);
             }
         </script>
     </head>
@@ -56,12 +55,14 @@
                 <div class="header">
                     <h1>Quản lí danh mục</h1>
                     <button onclick="openCreatePopup()" class="btn-add">Thêm</button>
-
                 </div>
                 <div class="search-bar">
-                    <input type="text" placeholder="Tìm kiếm">
-                    <button class="btn-search">Tìm kiếm</button>
+                    <form method="get" action="">
+                        <input type="text" name="searchQuery" placeholder="Tìm kiếm..." value="${param.searchQuery != null ? param.searchQuery : ''}">
+                        <button class="btn-search" type="submit">Tìm kiếm</button>
+                    </form>
                 </div>
+
                 <c:if test="${empty categories}">
                     <p>Không có danh mục nào.</p>
                 </c:if>
@@ -80,6 +81,7 @@
         <jsp:include page="categoryCreate.jsp"></jsp:include>       
         <jsp:include page="categoryDelete.jsp"></jsp:include>
         <jsp:include page="categoryEdit.jsp"></jsp:include>
+
         <c:if test="${not empty sessionScope.errorMessage}">
             <script>
                 showError("${sessionScope.errorMessage}");
@@ -93,6 +95,5 @@
             </script>
             <c:remove var="successMessage" scope="session"/>
         </c:if>
-
     </body>
 </html>

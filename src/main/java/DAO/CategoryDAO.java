@@ -17,40 +17,40 @@ import java.util.List;
 public class CategoryDAO extends DatabaseConnection {
 
     // CREATE - Thêm một category mới
-public boolean createCategory(Category category) {
-    String sql = "INSERT INTO Categories (category_name) VALUES (?)";
-    
-    try (Connection conn = getConnection()) {
-        // Kiểm tra kết nối trước khi tiếp tục
-        if (conn == null || conn.isClosed()) {
-            System.out.println("Kết nối không được thiết lập hoặc đã bị đóng.");
-            return false;
-        }
+    public boolean createCategory(Category category) {
+        String sql = "INSERT INTO Categories (category_name) VALUES (?)";
 
-        // Tạo PreparedStatement và thực hiện câu lệnh INSERT
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, category.getCategoryName());
-            
-            int affectedRows = ps.executeUpdate();
-
-            // Kiểm tra số lượng dòng bị ảnh hưởng để xác nhận INSERT thành công
-            if (affectedRows > 0) {
-                System.out.println("Thêm danh mục thành công!");
-                return true;
-            } else {
-                System.out.println("Thêm danh mục thất bại, không có dòng nào được chèn.");
+        try ( Connection conn = getConnection()) {
+            // Kiểm tra kết nối trước khi tiếp tục
+            if (conn == null || conn.isClosed()) {
+                System.out.println("Kết nối không được thiết lập hoặc đã bị đóng.");
+                return false;
             }
+
+            // Tạo PreparedStatement và thực hiện câu lệnh INSERT
+            try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, category.getCategoryName());
+
+                int affectedRows = ps.executeUpdate();
+
+                // Kiểm tra số lượng dòng bị ảnh hưởng để xác nhận INSERT thành công
+                if (affectedRows > 0) {
+                    System.out.println("Thêm danh mục thành công!");
+                    return true;
+                } else {
+                    System.out.println("Thêm danh mục thất bại, không có dòng nào được chèn.");
+                }
+            }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Tên danh mục đã tồn tại: " + e.getMessage());
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm danh mục: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (SQLIntegrityConstraintViolationException e) {
-        System.out.println("Tên danh mục đã tồn tại: " + e.getMessage());
+
         return false;
-    } catch (SQLException e) {
-        System.out.println("Lỗi khi thêm danh mục: " + e.getMessage());
-        e.printStackTrace();
     }
-    
-    return false;
-}
 
     // READ - Lấy tất cả categories
     public List<Category> getAllCategories() {
@@ -116,5 +116,24 @@ public boolean createCategory(Category category) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<Category> getCategoriesWithSearch(String searchQuery) {
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT *, CASE WHEN category_name LIKE ? THEN 0 ELSE 1 END AS sort_order FROM Categories ORDER BY sort_order, category_name";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + searchQuery + "%");
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Category category = new Category();
+                    category.setCategoryId(rs.getInt("category_id"));
+                    category.setCategoryName(rs.getString("category_name"));
+                    categories.add(category);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
     }
 }

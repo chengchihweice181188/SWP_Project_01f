@@ -1,6 +1,6 @@
 <%-- 
-    Document   : promotionDelete
-    Created on : Oct 10, 2024, 3:30:00 PM
+    Document   : voucherDelete
+    Created on : Oct 12, 2024, 3:46:16 PM
     Author     : Bang
 --%>
 
@@ -10,7 +10,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Xóa Khuyến Mãi</title>
+        <title>Xóa Voucher</title>
         <style>
             .overlay {
                 display: none;
@@ -35,29 +35,29 @@
 
         </style>
         <script>
-            // Hàm mở popup xóa khuyến mãi
-            function openDeletePromotionPopup(id) {
-                document.getElementById('deletePromotionOverlay').style.display = 'flex';
-                document.getElementById('deletePromotionId').value = id;
+            // Hàm mở popup xóa Voucher
+            function openDeleteVoucherPopup(id) {
+                document.getElementById('deleteVoucherOverlay').style.display = 'flex';
+                document.getElementById('deleteVoucherId').value = id;
             }
 
-            // Hàm đóng popup xóa khuyến mãi
-            function closeDeletePromotionPopup() {
-                document.getElementById('deletePromotionOverlay').style.display = 'none';
+            // Hàm đóng popup xóa Voucher
+            function closeDeleteVoucherPopup() {
+                document.getElementById('deleteVoucherOverlay').style.display = 'none';
             }
         </script>
     </head>
     <body>
-        <div id="deletePromotionOverlay" class="overlay">
+        <div id="deleteVoucherOverlay" class="overlay">
             <div class="popup">
-                <span class="close-btn" onclick="closeDeletePromotionPopup()">&#10006;</span>
-                <h2>Xóa Khuyến Mãi</h2>
-                <p>Bạn có chắc chắn muốn xóa khuyến mãi này?</p>
+                <span class="close-btn" onclick="closeDeleteVoucherPopup()">&#10006;</span>
+                <h2>Xóa Voucher</h2>
+                <p>Bạn có chắc chắn muốn xóa Voucher này?</p>
                 <form action="${pageContext.request.contextPath}/DeletePromotionServlet" method="post">
-                    <input type="hidden" name="promotionId" id="deletePromotionId">
-                    <input type="hidden" name="type" value="promotion">
+                    <input type="hidden" name="VoucherId" id="deleteVoucherId">
+                    <input type="hidden" name="type" value="voucher">
                     <button type="submit">Xóa</button>
-                    <button type="button" onclick="closeDeletePromotionPopup()">Hủy</button>
+                    <button type="button" onclick="closeDeleteVoucherPopup()">Hủy</button>
                 </form>
             </div>
         </div>
