@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Homepage
-    Created on : Oct 6, 2024, 2:01:06 PM
+    Document   : ChoosedCategory
+    Created on : Oct 10, 2024, 10:49:52 AM
     Author     : LENOVO
 --%>
 
@@ -152,68 +152,55 @@
                 }
             %>
         </div>
-        <%
-            rs = dao.getAllProducts();
-            if (!rs.isBeforeFirst()) {
-        %>
-        <h2 class="no-product">Hiện không có sản phẩm nào trong mục này</h2>
-        <%
-        } else {
-        %>
+        <c:if test="${empty productList}">
+            <h2 class="no-product">Hiện không có sản phẩm nào trong mục này</h2>
+        </c:if>
         <div class="product-container">
-            <%
-                while (rs.next()) {
-            %>
-            <div class="product-item">
-                <img class="img" src="/ProductImg/<%=rs.getString("product_image")%>" alt="<%=rs.getString("product_name")%>">
-                <p class="product-name"><%=rs.getString("product_name")%></p>
-                <!--truyền tham số vào dđể khi bấm sẽ hiện ra popup tương ứng-->
-                <button class="btn btn-success btn-edit" onclick="showPopup('<%= rs.getString("product_image")%>',
-                                '<%= rs.getString("product_name")%>',
-                                '<%= rs.getString("product_description")%>',
-                                '<%= rs.getString("product_price")%>',
-                                '<%= rs.getInt("product_id")%>')">Chọn: <%= rs.getDouble("product_price")%>đ</button>
-            </div>
-            <div class="pop-up row" id="popup_<%= rs.getInt("product_id")%>" style="display:none;">
-                <div class="col">
-                    <img class="img" id="popupImage_<%= rs.getInt("product_id")%>" src="" alt="">
-                    <p class="wrap-text product-name" id="popupName_<%= rs.getInt("product_id")%>"></p>
-                    <p class="wrap-text" id="popupDescription_<%= rs.getInt("product_id")%>"></p>
-                </div>
-                <div class="col detail">
-                    <form method="post" action="">
-                        Số lượng:
-                        <!--số lượng tối thiểu là 1, tối đa là 99.-->
-                        <input type="number" class="full-width" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"/><br>
-                        Tùy chỉnh:
-                        <select name="productOptionId" class="full-width">
-                            <option value="0">Mặc định</option>
-                            <%
-                                // Lấy tất cả các tùy chọn của sản phẩm
-                                ResultSet rsOptions = dao.getOptionsByProductId(rs.getInt("product_id"));
-                                while (rsOptions.next()) {
-                            %>
-                            <option value="<%= rsOptions.getInt("option_id")%>"><%=rsOptions.getString("option_name")%>/+<%= rsOptions.getDouble("price_adjustment")%>đ</option>
-                            <%
-                                }
-                            %>
-                        </select>
-                        <button type="submit" class="btn btn-success full-width" id="popupPrice_<%= rs.getInt("product_id")%>">Thêm</button>
-                        <button class="btn btn-danger full-width" onclick="closePopup('<%= rs.getInt("product_id")%>')">Quay lại</button>
-                    </form>
-                </div>
-            </div>
-            <%                    }
-                }
-            %>
+            <c:if test="${!empty productList}">
+                <c:forEach var="product" items="${productList}">
+                    <div class="product-item">
+                        <img class="img" src="/ProductImg/${product.product_image}" alt="${product.product_name}">
+                        <p class="product-name">${product.product_name}</p>
+                        <!--truyền tham số vào dđể khi bấm sẽ hiện ra popup tương ứng-->
+                        <button class="btn btn-success btn-edit" onclick="showPopup('${product.product_image}',
+                                        '${product.product_name}',
+                                        '${product.product_description}',
+                                        '${product.product_price}',
+                                        '${product.product_id}'
+                                        )">Chọn: ${product.product_price}đ</button>
+                    </div>
+                    <div class="pop-up row" id="popup_${product.product_id}" style="display:none;">
+                        <div class="col">
+                            <img class="img" id="popupImage_${product.product_id}" src="" alt="">
+                            <p class="wrap-text product-name" id="popupName_${product.product_id}"></p>
+                            <p class="wrap-text" id="popupDescription_${product.product_id}"></p>
+                        </div>
+                        <div class="col detail">
+                            <form method="get" action="">
+                                Số lượng:
+                                <!--số lượng tối thiểu là 1, tối đa là 99.-->
+                                <input type="number" class="full-width" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"/><br>
+                                Tùy chỉnh:
+                                <select name="productOptionId" class="full-width">
+                                    <option value="0">Mặc định</option>
+
+                                </select>
+                                <button type="submit" class="btn btn-success full-width" id="popupPrice_${product.product_id}">Thêm</button>
+                                <button class="btn btn-danger full-width" onclick="closePopup('${product.product_id}')">Quay lại</button>
+                            </form>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:if>
         </div>
         <div class="overlay" id="overlay"></div>
         <footer class="footer-edit">
             <ul class="margin-padding">
-                <li>Email: </li>
+                <li>Email: swpffshopgroup@gmail.com</li>
                 <li>Số điện thoại: </li>
                 <li>Địa chỉ: </li>
             </ul>
         </footer>
     </body>
 </html>
+
