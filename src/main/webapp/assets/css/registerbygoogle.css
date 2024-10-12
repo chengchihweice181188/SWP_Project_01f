@@ -1,0 +1,81 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 11, 2024, 11:20:56 AM
+    Author     : tvhun
+*/
+/* registerbygoogle.css */
+    
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #d0d0d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
+.registers{
+        text-align: left;
+
+}
+
+.logo img {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #f1691a;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="tel"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f6eeee;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: #f77225;
+    color: white;
+}
+
+p {
+    margin-top: 20px;
+    color: #3fb2f0;
+    font-size: 14px;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+
+
