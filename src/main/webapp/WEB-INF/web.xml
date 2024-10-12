@@ -8,6 +8,14 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>Controllers.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderManagementController</servlet-name>
+        <servlet-class>Controllers.OrderManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderController</servlet-name>
+        <servlet-class>Controllers.UpdateOrderController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderManagementController</servlet-name>
+        <url-pattern>/OrderManagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderController</servlet-name>
+        <url-pattern>/UpdateOrder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
