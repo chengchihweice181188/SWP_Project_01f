@@ -140,40 +140,32 @@
         <br><br><br>
         <div class="category">
             &nbsp;<a href="/index.jsp" class="text">Tất cả</a> &nbsp;
-            <%
-                ViewCategoryDAO dao = new ViewCategoryDAO();
-                ResultSet rs = dao.getAllCategories();
-                if (rs != null) {
-                    while (rs.next()) {
-            %>
-            &nbsp;<a href="/ViewCategoryController/Category/<%=rs.getString("category_id")%>" class="text"><%=rs.getString("category_name")%></a> &nbsp;
-            <%
-                    }
-                }
-            %>
+            <c:forEach var="categoryVar" items="${categoryList}">
+                &nbsp;<a href="/ViewCategoryController/Category/${categoryVar.category_id}" class="text">${categoryVar.category_name}</a> &nbsp;
+            </c:forEach>
         </div>
         <c:if test="${empty productList}">
             <h2 class="no-product">Hiện không có sản phẩm nào trong mục này</h2>
         </c:if>
         <div class="product-container">
             <c:if test="${!empty productList}">
-                <c:forEach var="product" items="${productList}">
+                <c:forEach var="productVar" items="${productList}">
                     <div class="product-item">
-                        <img class="img" src="/ProductImg/${product.product_image}" alt="${product.product_name}">
-                        <p class="product-name">${product.product_name}</p>
+                        <img class="img" src="/ProductImg/${productVar.product_image}" alt="${productVar.product_name}">
+                        <p class="product-name">${productVar.product_name}</p>
                         <!--truyền tham số vào dđể khi bấm sẽ hiện ra popup tương ứng-->
-                        <button class="btn btn-success btn-edit" onclick="showPopup('${product.product_image}',
-                                        '${product.product_name}',
-                                        '${product.product_description}',
-                                        '${product.product_price}',
-                                        '${product.product_id}'
-                                        )">Chọn: ${product.product_price}đ</button>
+                        <button class="btn btn-success btn-edit" onclick="showPopup('${productVar.product_image}',
+                                        '${productVar.product_name}',
+                                        '${productVar.product_description}',
+                                        '${productVar.product_price}',
+                                        '${productVar.product_id}'
+                                        )">Chọn: ${productVar.product_price}đ</button>
                     </div>
-                    <div class="pop-up row" id="popup_${product.product_id}" style="display:none;">
+                    <div class="pop-up row" id="popup_${productVar.product_id}" style="display:none;">
                         <div class="col">
-                            <img class="img" id="popupImage_${product.product_id}" src="" alt="">
-                            <p class="wrap-text product-name" id="popupName_${product.product_id}"></p>
-                            <p class="wrap-text" id="popupDescription_${product.product_id}"></p>
+                            <img class="img" id="popupImage_${productVar.product_id}" src="" alt="">
+                            <p class="wrap-text product-name" id="popupName_${productVar.product_id}"></p>
+                            <p class="wrap-text" id="popupDescription_${productVar.product_id}"></p>
                         </div>
                         <div class="col detail">
                             <form method="get" action="">
@@ -183,10 +175,12 @@
                                 Tùy chỉnh:
                                 <select name="productOptionId" class="full-width">
                                     <option value="0">Mặc định</option>
-
+                                    <c:forEach var="optionVar" items="${productVar.options}">
+                                        <option value="${optionVar.option_id}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
+                                    </c:forEach>
                                 </select>
-                                <button type="submit" class="btn btn-success full-width" id="popupPrice_${product.product_id}">Thêm</button>
-                                <button class="btn btn-danger full-width" onclick="closePopup('${product.product_id}')">Quay lại</button>
+                                <button type="submit" class="btn btn-success full-width" id="popupPrice_${productVar.product_id}">Thêm</button>
+                                <button class="btn btn-danger full-width" onclick="closePopup('${productVar.product_id}')">Quay lại</button>
                             </form>
                         </div>
                     </div>

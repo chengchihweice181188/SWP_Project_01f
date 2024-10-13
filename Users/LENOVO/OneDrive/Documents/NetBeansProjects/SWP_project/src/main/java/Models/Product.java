@@ -4,6 +4,8 @@
  */
 package Models;
 
+import java.util.List;
+
 /**
  *
  * @author LENOVO
@@ -17,6 +19,15 @@ public class Product {
     private String product_image;
     private int category_id;
     private int is_hidden;
+    private List<Option> options;
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
 
     public int getProduct_id() {
         return product_id;

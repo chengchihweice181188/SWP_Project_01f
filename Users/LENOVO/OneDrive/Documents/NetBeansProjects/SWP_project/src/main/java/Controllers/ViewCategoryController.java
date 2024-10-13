@@ -6,6 +6,7 @@ package Controllers;
 
 import DAOs.ProductDAO;
 import DAOs.ViewCategoryDAO;
+import Models.Category;
 import Models.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,15 +63,29 @@ public class ViewCategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
-        if (path.startsWith("/ViewCategoryController/Category/")) {
-            String[] s = path.split("/");
-            String id = s[s.length - 1];
+        HttpSession session = request.getSession();
+        if (path.equals("/") || path.equals("/ViewCategoryController")) {
             ViewCategoryDAO dao = new ViewCategoryDAO();
-            // Lấy danh sách sản phẩm theo danh mục
-            List<Product> products = dao.getProductsByCategory(id);
-            // Truyền danh sách sản phẩm từ servlet sang JSP
-            request.setAttribute("productList", products);
-            request.getRequestDispatcher("/ViewCategory.jsp").forward(request, response);
+            //Đưa category list tạo ở DAO vào session
+            List<Category> categoryList = dao.getAllCategories();
+            session.setAttribute("categoryList", categoryList);
+            //Đưa product list tạo ở DAO vào session
+            List<Product> productList = dao.getAllProductInfo();
+            session.setAttribute("productList", productList);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } else {
+            if (path.startsWith("/ViewCategoryController/Category/")) {
+                String[] s = path.split("/");
+                String id = s[s.length - 1];
+                ViewCategoryDAO dao = new ViewCategoryDAO();
+                //Đưa category list tạo ở DAO vào session
+                List<Category> categoryList = dao.getAllCategories();
+                session.setAttribute("categoryList", categoryList);
+                //truyen gia tri tu servle (controller) -> view (jsp) su dung session
+                List<Product> productList = dao.getAllProductInfoByCategory(id);
+                session.setAttribute("productList", productList);
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            }
         }
     }
 
