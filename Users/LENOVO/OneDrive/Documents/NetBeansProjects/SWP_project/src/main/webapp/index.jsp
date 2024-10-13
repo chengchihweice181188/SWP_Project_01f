@@ -17,6 +17,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <style>
             .category {
+                border-top: solid;
                 border-bottom: solid;
                 border-width: 2px;
                 text-align: center;
@@ -24,10 +25,11 @@
                 white-space: nowrap;      /* Không cho phép xuống dòng */
                 overflow-x: auto;         /* Thêm thanh cuộn ngang khi cần */
                 width: 100%;
-                margin-top: -2px;
+                background: lightgray;
             }
             .btn-edit{
                 width: 100%;
+                height: 11.2%
             }
             .product-container {
                 display: flex;
@@ -45,7 +47,7 @@
                 border-radius: 7px;
             }
             .img {
-                width: 256px;
+                width: 100%;
                 height: 250px;
                 object-fit: cover;
                 padding: 5px;
@@ -117,6 +119,11 @@
                 margin-top: 20px;
                 justify-content: center; /* Căn giữa theo chiều ngang */
             }
+            .background{
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
         </style>
         <script>
             function showPopup(image, name, description, price, productId) {
@@ -138,9 +145,9 @@
     </head>
     <body style="background: #fff9f0">
         <%@ include file="navbar.jsp" %> 
-        <br><br><br>
+        <img class="background" src="/WebLogo/background.jpg">
         <div class="category">
-            &nbsp;<a href="/index.jsp" class="text">Tất cả</a> &nbsp;
+            &nbsp;<a href="/" class="text">Tất cả</a> &nbsp;
             <c:forEach var="categoryVar" items="${categoryList}">
                 &nbsp;<a href="/ViewCategoryController/Category/${categoryVar.category_id}" class="text">${categoryVar.category_name}</a> &nbsp;
             </c:forEach>

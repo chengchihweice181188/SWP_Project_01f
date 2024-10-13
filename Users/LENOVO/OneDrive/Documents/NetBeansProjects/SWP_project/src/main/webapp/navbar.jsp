@@ -15,46 +15,46 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <style>
-            .editNavbar{
-                border: solid;
-                border-width: 2px;
+            .navbar{
                 background: orange;
-                position: fixed;
                 width: 100%;
+                display: flex;
+                padding: 0px;
+                position: fixed;
+                border-bottom: solid;
+                border-width: 2px;
             }
-            .logo {
-                position: absolute;
-                width: 70px;
-                height: 68px;
-                margin-top: -34px;
+            .navbar-items{
+                display: flex;
             }
-            .item-txt{
-                font-size: 24px;
-                font-weight: bold;
+            .logo{
+                height: 88px;
+                width: 88px;
+            }
+            .nav-icon{
+                margin: 20px;
             }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light editNavbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.jsp">
-                    <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
-                </a>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">Đơn hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">Giỏ hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">Thông báo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link item-txt" href="#">Tài khoản</a>
-                    </li>
-                </ul>
+        <div class="navbar">
+            <div>
+                <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
             </div>
-        </nav>
+            <div class="navbar-items">
+                <a class="nav-link item-txt" href="#">
+                    <img class="nav-icon" src="/WebLogo/order.png">
+                </a>
+                <a class="nav-link item-txt" href="#">
+                    <img class="nav-icon" src="/WebLogo/cart.png">
+                </a>
+                <a class="nav-link item-txt" href="#">
+                    <img class="nav-icon" src="/WebLogo/bell.png">
+                </a>
+                <a class="nav-link item-txt" href="#">
+                    <img class="nav-icon" src="/WebLogo/user.png">
+                </a>
+            </div>
+        </div>
     </body>
 </html>
