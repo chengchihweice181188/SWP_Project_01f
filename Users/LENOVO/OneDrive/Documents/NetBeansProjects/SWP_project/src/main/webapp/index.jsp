@@ -4,16 +4,17 @@
     Author     : LENOVO
 --%>
 
-<%@page import="java.sql.ResultSet"%>
-<%@page import="DAOs.ViewCategoryDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <style>
             .category {
                 border-bottom: solid;
@@ -168,6 +169,7 @@
                             <p class="wrap-text" id="popupDescription_${productVar.product_id}"></p>
                         </div>
                         <div class="col detail">
+                            <h3 style="text-align: center">Lựa chọn</h3>
                             <form method="get" action="">
                                 Số lượng:
                                 <!--số lượng tối thiểu là 1, tối đa là 99.-->
@@ -180,8 +182,8 @@
                                     </c:forEach>
                                 </select>
                                 <button type="submit" class="btn btn-success full-width" id="popupPrice_${productVar.product_id}">Thêm</button>
-                                <button class="btn btn-danger full-width" onclick="closePopup('${productVar.product_id}')">Quay lại</button>
                             </form>
+                            <button class="btn btn-danger full-width" onclick="closePopup('${productVar.product_id}')">Quay lại</button>
                         </div>
                     </div>
                 </c:forEach>
