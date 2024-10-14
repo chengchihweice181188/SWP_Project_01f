@@ -39,7 +39,9 @@
     <body>
         <div class="navbar">
             <div>
-                <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
+                <a class="nav-link item-txt" href="index.jsp">
+                    <img src="/WebLogo/logo.jpg" alt="Logo" class="logo">
+                </a>
             </div>
             <div class="navbar-items">
                 <a class="nav-link item-txt" href="#">

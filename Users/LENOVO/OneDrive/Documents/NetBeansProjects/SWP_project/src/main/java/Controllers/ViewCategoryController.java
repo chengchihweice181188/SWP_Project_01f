@@ -4,7 +4,6 @@
  */
 package Controllers;
 
-import DAOs.ProductDAO;
 import DAOs.ViewCategoryDAO;
 import Models.Category;
 import Models.Product;

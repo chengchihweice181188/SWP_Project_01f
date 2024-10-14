@@ -106,7 +106,7 @@
             }
             .full-width{
                 width: 100%;
-                margin-top: 10px;
+                margin-bottom: 20px;
             }
             .wrap-text {
                 width: 100%; /* Đặt chiều rộng của div */
@@ -121,7 +121,7 @@
             }
             .background{
                 width: 100%;
-                height: 200px;
+                height: 225px;
                 object-fit: cover;
             }
         </style>
@@ -135,11 +135,28 @@
                 document.getElementById("popupImage_" + productId).src = "/ProductImg/" + image;
                 document.getElementById("popupName_" + productId).innerText = name;
                 document.getElementById("popupDescription_" + productId).innerText = description;
+                // Gọi hàm updatePrice với số lượng mặc định là 1 và tùy chọn mặc định là 0 (không điều chỉnh giá)
+                updatePrice(price, productId, 1, 0);
             }
             function closePopup(productId) {
                 // Ẩn popup dựa trên productId
                 document.getElementById("popup_" + productId).style.display = "none";
                 document.getElementById("overlay").style.display = "none";
+            }
+            function updatePrice(basePrice, productId, quantity, optionPriceAdjustment) {
+                // Chuyển đổi các giá trị đầu vào thành số nguyên để tính toán
+                var quantityValue = parseInt(quantity);
+                var optionPrice = parseInt(optionPriceAdjustment);
+                // Đảm bảo rằng giá trị điều chỉnh của option là số, nếu không thì mặc định là 0
+                if (isNaN(optionPrice)) {
+                    optionPrice = 0;
+                }
+                // Tính toán giá cuối cùng
+                var finalPrice = (parseInt(basePrice) + optionPrice) * quantityValue;
+                // Cập nhật giá trị trong nút "Thêm"
+                document.getElementById("popupPrice_" + productId).innerText = "Thêm: " + finalPrice + "đ";
+                // Cập nhật giá trị vào input ẩn để khi submit form có giá trị này
+                document.getElementById("finalPrice_" + productId).value = finalPrice;
             }
         </script>
     </head>
@@ -179,16 +196,19 @@
                             <h3 style="text-align: center">Lựa chọn</h3>
                             <form method="get" action="">
                                 Số lượng:
-                                <!--số lượng tối thiểu là 1, tối đa là 99.-->
-                                <input type="number" class="full-width" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"/><br>
+                                <input type="number" class="full-width" id="popupQuantity_${productVar.product_id}" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"
+                                       onchange="updatePrice('${productVar.product_price}', '${productVar.product_id}', this.value, document.getElementById('popupOption_${productVar.product_id}').value)"/><br>
                                 Tùy chỉnh:
-                                <select name="productOptionId" class="full-width">
+                                <select name="productOptionId" class="full-width" id="popupOption_${productVar.product_id}"
+                                        onchange="updatePrice('${productVar.product_price}', '${productVar.product_id}', document.getElementById('popupQuantity_${productVar.product_id}').value, this.value)">
                                     <option value="0">Mặc định</option>
                                     <c:forEach var="optionVar" items="${productVar.options}">
-                                        <option value="${optionVar.option_id}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
+                                        <option value="${optionVar.price_adjustment}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
                                     </c:forEach>
                                 </select>
-                                <button type="submit" class="btn btn-success full-width" id="popupPrice_${productVar.product_id}">Thêm</button>
+                                <!-- Thêm một input ẩn để lưu giá cuối cùng để xử lí-->
+                                <input type="hidden" id="finalPrice_${productVar.product_id}" name="finalPrice" value="">
+                                <button type="submit" class="btn btn-success full-width" id="popupPrice_${productVar.product_id}"></button>
                             </form>
                             <button class="btn btn-danger full-width" onclick="closePopup('${productVar.product_id}')">Quay lại</button>
                         </div>
@@ -199,7 +219,7 @@
         <div class="overlay" id="overlay"></div>
         <footer class="footer-edit">
             <ul class="margin-padding">
-                <li>Email: </li>
+                <li>Email: swpffshopgroup@gmail.com</li>
                 <li>Số điện thoại: </li>
                 <li>Địa chỉ: </li>
             </ul>
