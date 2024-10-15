@@ -68,7 +68,7 @@ public class ViewCategoryController extends HttpServlet {
             List<Category> categoryList = dao.getAllCategories();
             request.setAttribute("categoryList", categoryList);
             //Đưa product list tạo ở DAO vào session
-            List<Product> productList = dao.getAllProductInfo();
+            List<Product> productList = dao.getAllProductInfoByCategory("-1");
             request.setAttribute("productList", productList);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } else {
