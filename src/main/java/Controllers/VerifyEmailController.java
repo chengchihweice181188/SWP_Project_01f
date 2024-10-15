@@ -31,10 +31,8 @@ public class VerifyEmailController extends HttpServlet {
                 String username = (String) request.getSession().getAttribute("username");
                 String password = (String) request.getSession().getAttribute("password");
                 String email = (String) request.getSession().getAttribute("email");
-                String phone = (String) request.getSession().getAttribute("phone");
-                String address = (String) request.getSession().getAttribute("address");
                 RegisterDAO registerDAO = new RegisterDAO();
-                String result = registerDAO.registerUser(username, password, email, phone, address);
+                String result = registerDAO.registerUser(username, password, email,"","");
                 if ("SUCCESS".equals(result)) {
                     response.sendRedirect("index.jsp?msg=Xác thực thành công, bạn có thể đăng nhập.");
                 }

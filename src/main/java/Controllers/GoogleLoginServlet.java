@@ -57,16 +57,18 @@ public class GoogleLoginServlet extends HttpServlet {
 
             RegisterDAO registerDAO = new RegisterDAO();
 
+            // Invalidate any existing session and create a new one
             request.getSession().invalidate();
             request.getSession(true);
 
             if (registerDAO.isEmailExists(email)) {
+                // Email already exists, set email attribute and redirect to index.jsp
                 request.getSession().setAttribute("email", email);
                 response.sendRedirect("navbar.jsp");
             } else {
+                registerDAO.registerUser("", "", email, "", "");
                 request.getSession().setAttribute("email", email);
-                request.getSession().setAttribute("name", name);
-                response.sendRedirect("RegisterByGoogle");
+                response.sendRedirect("navbar.jsp");
             }
 
         } else {

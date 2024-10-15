@@ -24,8 +24,6 @@
                 <input type="text" placeholder="Tên người dùng" name="username" required>
                 <input type="password" placeholder="Mật khẩu" name="password" required>
                 <input type="email" placeholder="Email" name="email" required>
-                <input type="tel" placeholder="Số điện thoại" name="phone" required>
-                <input type="text" placeholder="Địa chỉ" name="address" required>
                 <button type="submit" class="login-btn">Đăng ký</button>
                 <p>Đã có tài khoản? <a href="index.jsp" class="register-link">Đăng nhập</a></p>
                 <c:if test="${not empty msg}">
