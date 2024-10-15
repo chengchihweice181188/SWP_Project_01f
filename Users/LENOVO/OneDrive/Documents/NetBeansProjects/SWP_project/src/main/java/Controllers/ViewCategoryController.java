@@ -62,15 +62,14 @@ public class ViewCategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
-        HttpSession session = request.getSession();
         if (path.equals("/") || path.equals("/ViewCategoryController")) {
             ViewCategoryDAO dao = new ViewCategoryDAO();
             //Đưa category list tạo ở DAO vào session
             List<Category> categoryList = dao.getAllCategories();
-            session.setAttribute("categoryList", categoryList);
+            request.setAttribute("categoryList", categoryList);
             //Đưa product list tạo ở DAO vào session
             List<Product> productList = dao.getAllProductInfo();
-            session.setAttribute("productList", productList);
+            request.setAttribute("productList", productList);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } else {
             if (path.startsWith("/ViewCategoryController/Category/")) {
@@ -79,10 +78,10 @@ public class ViewCategoryController extends HttpServlet {
                 ViewCategoryDAO dao = new ViewCategoryDAO();
                 //Đưa category list tạo ở DAO vào session
                 List<Category> categoryList = dao.getAllCategories();
-                session.setAttribute("categoryList", categoryList);
+                request.setAttribute("categoryList", categoryList);
                 //truyen gia tri tu servle (controller) -> view (jsp) su dung session
                 List<Product> productList = dao.getAllProductInfoByCategory(id);
-                session.setAttribute("productList", productList);
+                request.setAttribute("productList", productList);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }

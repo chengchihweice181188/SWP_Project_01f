@@ -67,7 +67,6 @@
                 background: black;
                 color: white;
                 padding-left: 80px;
-                position: fixed;
                 bottom: 0;
                 width: 100%;
             }
@@ -118,6 +117,7 @@
                 text-align: center;
                 margin-top: 20px;
                 justify-content: center; /* Căn giữa theo chiều ngang */
+                height: 37vh;
             }
             .background{
                 width: 100%;
@@ -219,9 +219,9 @@
         <div class="overlay" id="overlay"></div>
         <footer class="footer-edit">
             <ul class="margin-padding">
-                <li>Email: swpffshopgroup@gmail.com</li>
-                <li>Số điện thoại: </li>
-                <li>Địa chỉ: </li>
+                <div>Email: swpffshopgroup@gmail.comdivli>
+                    <div>Số điện thoại: 0921183265</div>
+                    <div>Địa chỉ: 311/10/14A, đường Nguyễn Văn Cừ, phường An Hòa, quận Ninh Kiều, thành phố Cần Thơ</div>
             </ul>
         </footer>
     </body>

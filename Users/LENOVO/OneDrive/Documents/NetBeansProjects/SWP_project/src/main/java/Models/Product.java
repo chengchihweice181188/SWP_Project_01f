@@ -20,6 +20,27 @@ public class Product {
     private int category_id;
     private int is_hidden;
     private List<Option> options;
+    private String category_name;
+
+    public Product(int product_id, String product_name, String product_description, double product_price, String product_image, int category_id, int is_hidden, List<Option> options, String category_name) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.product_description = product_description;
+        this.product_price = product_price;
+        this.product_image = product_image;
+        this.category_id = category_id;
+        this.is_hidden = is_hidden;
+        this.options = options;
+        this.category_name = category_name;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
 
     public List<Option> getOptions() {
         return options;

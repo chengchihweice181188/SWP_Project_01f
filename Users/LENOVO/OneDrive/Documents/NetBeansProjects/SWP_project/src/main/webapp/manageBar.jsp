@@ -22,7 +22,6 @@
             .sidebar {
                 width: 210px;
                 background-color: orange;
-                height: 100%;
                 top: 0;
                 left: 0;
                 padding: 10px;
