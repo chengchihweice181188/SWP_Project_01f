@@ -76,9 +76,6 @@ public class UpdateOrderController extends HttpServlet {
         // Lấy giá trị từ request
         String orderIdStr = request.getParameter("order_id");
         String selectedStatus = request.getParameter("order_status");
-        // Kiểm tra xem dữ liệu có bị null không
-        System.out.println("Order ID: " + orderIdStr);
-        System.out.println("Order Status: " + selectedStatus);
         // Nếu orderId hoặc selectedStatus null, in ra lỗi và ngừng xử lý
         if (orderIdStr == null || selectedStatus == null) {
             System.out.println("Order ID hoặc Order Status bị null");
@@ -86,8 +83,33 @@ public class UpdateOrderController extends HttpServlet {
             request.getRequestDispatcher("orderManagement.jsp").forward(request, response);
             return;  // Kết thúc hàm nếu không có dữ liệu hợp lệ
         }
+        // Kiểm tra xem order_id có phải là số hợp lệ không
+        int order_id;
+        try {
+            order_id = Integer.parseInt(orderIdStr);
+        } catch (NumberFormatException e) {
+            System.out.println("Order ID không phải là số hợp lệ: " + orderIdStr);
+            request.setAttribute("error", "Order ID không hợp lệ.");
+            request.getRequestDispatcher("orderManagement.jsp").forward(request, response);
+            return;
+        }
+        // Kiểm tra xem selectedStatus có nằm trong danh sách trạng thái hợp lệ không
+        String[] validStatuses = {"Chưa xử lý", "Đã xử lý", "Đang giao", "Đã giao", "Đã hủy"};
+        boolean isValidStatus = false;
+        for (String status : validStatuses) {
+            if (status.equalsIgnoreCase(selectedStatus)) {
+                isValidStatus = true;
+                break;
+            }
+        }
+        if (isValidStatus) {
+            System.out.println("Order Status không hợp lệ: " + selectedStatus);
+            request.setAttribute("error", "Trạng thái đơn hàng không hợp lệ.");
+            request.getRequestDispatcher("orderManagement.jsp").forward(request, response);
+            return;
+        }
+
         // Tiếp tục xử lý khi dữ liệu hợp lệ
-        int order_id = Integer.parseInt(orderIdStr);
         OrderManagementDAO ord = new OrderManagementDAO();
         try {
             // Cập nhật trạng thái đơn hàng

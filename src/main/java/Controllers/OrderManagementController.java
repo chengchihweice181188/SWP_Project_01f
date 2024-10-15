@@ -63,21 +63,34 @@ public class OrderManagementController extends HttpServlet {
             throws ServletException, IOException {
         OrderManagementDAO orderDAO = new OrderManagementDAO();
         List<Order> orderList = null;
-        // Lấy giá trị trạng thái từ yêu cầu
         String orderStatus = request.getParameter("order_status");
+
+        // Nếu không có trạng thái đơn hàng nào được chọn, mặc định lấy tất cả
         if (orderStatus == null) {
-            orderStatus = "all";  // Mặc định nếu không có trạng thái nào được chọn
+            orderStatus = "all";
         }
+
         try {
             // Gọi phương thức DAO để lấy danh sách đơn hàng theo trạng thái
             orderList = orderDAO.getOrdersByStatus(orderStatus);
+            // Đặt danh sách đơn hàng và trạng thái vào request
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("order_status", orderStatus);
         } catch (SQLException ex) {
-            Logger.getLogger(OrderManagementController.class.getName()).log(Level.SEVERE, null, ex);
+            // Ghi log chi tiết cho SQLException
+            Logger.getLogger(OrderManagementController.class.getName()).log(Level.SEVERE, "Lỗi cơ sở dữ liệu: ", ex);
+
+            // Đặt thông báo lỗi vào request để hiển thị trên trang JSP
+            request.setAttribute("error", "Lỗi kết nối cơ sở dữ liệu. Vui lòng thử lại sau!");
+        } catch (Exception ex) {
+            // Ghi log chi tiết cho các lỗi khác
+            Logger.getLogger(OrderManagementController.class.getName()).log(Level.SEVERE, "Lỗi hệ thống: ", ex);
+
+            // Đặt thông báo lỗi vào request để hiển thị trên trang JSP
+            request.setAttribute("error", "Đã xảy ra lỗi. Vui lòng thử lại sau!");
         }
-        // Đặt danh sách đơn hàng và trạng thái vào request
-        request.setAttribute("orderList", orderList);
-        request.setAttribute("order_status", orderStatus);
-        // Chuyển tiếp tới trang JSP
+
+        // Chuyển tiếp tới trang JSP bất kể có lỗi hay không
         request.getRequestDispatcher("orderManagement.jsp").forward(request, response);
     }
 
@@ -91,7 +104,7 @@ public class OrderManagementController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
+            throws ServletException, IOException {
     }
 
     /**
