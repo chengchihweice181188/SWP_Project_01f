@@ -63,7 +63,7 @@
             <ul>
                 <li><a href="#" class="text">Quản lí đơn hàng</a></li>
                 <li><a href="#" class="text">Quản lý danh mục</a></li>
-                <li><a href="#" class="text">Quản lý sản phẩm</a></li>
+                <li><a href="/ManageProduct" class="text">Quản lý sản phẩm</a></li>
                 <li><a href="#" class="text">Quản lý lựa chọn</a></li>
                 <li><a href="#" class="text">Quản lý khuyến mãi</a></li>
                 <li><a href="#" class="text">Thống kê doanh thu</a></li>
