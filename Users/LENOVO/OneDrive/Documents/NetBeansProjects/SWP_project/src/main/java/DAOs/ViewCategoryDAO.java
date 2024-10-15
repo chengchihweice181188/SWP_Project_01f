@@ -59,7 +59,8 @@ public class ViewCategoryDAO {
                             + "FROM Products p "
                             + "LEFT JOIN ProductOptions po ON p.product_id = po.product_id "
                             + "LEFT JOIN Options o ON po.option_id = o.option_id "
-                            + "WHERE p.is_hidden = 0";
+                            + "WHERE p.is_hidden = 0 "
+                            + "ORDER BY p.product_id DESC ";
                     ps = conn.prepareStatement(query);
                 } else {
                     query = "SELECT p.product_id, p.product_name, p.product_description, p.product_image, "
@@ -67,7 +68,8 @@ public class ViewCategoryDAO {
                             + "FROM Products p "
                             + "LEFT JOIN ProductOptions po ON p.product_id = po.product_id "
                             + "LEFT JOIN Options o ON po.option_id = o.option_id "
-                            + "WHERE p.is_hidden = 0 AND p.category_id = ?";
+                            + "WHERE p.is_hidden = 0 AND p.category_id = ? "
+                            + "ORDER BY p.product_id DESC ";
                     ps = conn.prepareStatement(query);
                     ps.setString(1, categoryId);
                 }
