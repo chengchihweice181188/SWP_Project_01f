@@ -28,8 +28,6 @@ public class RegisterController extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
             RegisterDAO registerDAO = new RegisterDAO();
             if (registerDAO.isUserExists(username)) {
                 request.setAttribute("msg", "Tên người dùng đã tồn tại, vui lòng thử lại.");
@@ -48,8 +46,6 @@ public class RegisterController extends HttpServlet {
             request.getSession().setAttribute("username", username);
             request.getSession().setAttribute("password", password);
             request.getSession().setAttribute("email", email);
-            request.getSession().setAttribute("phone", phone);
-            request.getSession().setAttribute("address", address);
             request.getSession().setAttribute("verificationCode", verificationCodeStr);
 
             response.sendRedirect("verifyEmail.jsp");
