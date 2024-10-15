@@ -62,7 +62,7 @@ public class ViewCategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
-        if (path.equals("/") || path.equals("/ViewCategoryController")) {
+        if (path.equals("/")) {
             ViewCategoryDAO dao = new ViewCategoryDAO();
             //Đưa category list tạo ở DAO vào session
             List<Category> categoryList = dao.getAllCategories();
@@ -72,7 +72,7 @@ public class ViewCategoryController extends HttpServlet {
             request.setAttribute("productList", productList);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } else {
-            if (path.startsWith("/ViewCategoryController/Category/")) {
+            if (path.startsWith("/ViewCategory/Category/")) {
                 String[] s = path.split("/");
                 String id = s[s.length - 1];
                 ViewCategoryDAO dao = new ViewCategoryDAO();

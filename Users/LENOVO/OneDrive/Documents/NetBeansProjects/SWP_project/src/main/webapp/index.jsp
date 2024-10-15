@@ -166,7 +166,7 @@
         <div class="category">
             &nbsp;<a href="/" class="text">Tất cả</a> &nbsp;
             <c:forEach var="categoryVar" items="${categoryList}">
-                &nbsp;<a href="/ViewCategoryController/Category/${categoryVar.category_id}" class="text">${categoryVar.category_name}</a> &nbsp;
+                &nbsp;<a href="/ViewCategory/Category/${categoryVar.category_id}" class="text">${categoryVar.category_name}</a> &nbsp;
             </c:forEach>
         </div>
         <c:if test="${empty productList}">

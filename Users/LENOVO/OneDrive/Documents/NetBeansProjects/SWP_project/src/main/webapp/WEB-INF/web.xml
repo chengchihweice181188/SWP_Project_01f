@@ -4,10 +4,18 @@
         <servlet-name>ViewCategoryController</servlet-name>
         <servlet-class>Controllers.ViewCategoryController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageProductController</servlet-name>
+        <servlet-class>Controllers.ManageProductController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewCategoryController</servlet-name>
-        <url-pattern>/ViewCategoryController/*</url-pattern>
-        <url-pattern></url-pattern>
+        <url-pattern>/ViewCategory/*</url-pattern>
+        <url-pattern/>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageProductController</servlet-name>
+        <url-pattern>/ManageProduct/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
