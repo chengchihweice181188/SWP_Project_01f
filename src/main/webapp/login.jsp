@@ -17,7 +17,7 @@
         <div class="login-container">
             <div class="logo">
                 <img src="WebLogo/z5885423386947_01ed9c1cee6274a97fc8fac2d98c4808-removebg-preview.png" alt="Fast Food Logo">
-            </div>
+            </div>  
             <h2>Đăng nhập</h2>
             <form action="LoginController" method="post">
                 <input type="text" placeholder="Tên người dùng" name="username" required>

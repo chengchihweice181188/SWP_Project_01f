@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class LoginDAO {
 
-    public static User Validate(String username, String password) {
+    public static User Validate(String username, String password) throws SQLException { // Thêm throws SQLException
         User account = null; // Khởi tạo account là null trước
         Connection conn = null;
         PreparedStatement ps = null;
@@ -29,7 +29,6 @@ public class LoginDAO {
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
-
             if (rs.next()) {
                 // Chỉ khởi tạo đối tượng User khi có kết quả hợp lệ
                 account = new User();
@@ -41,66 +40,18 @@ public class LoginDAO {
                 account.setPoint(rs.getInt("point"));
                 account.setRole(rs.getInt("role"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            // Đảm bảo tài nguyên luôn được đóng dù có xảy ra lỗi hay không
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
             }
         }
         return account;
     }
-
-    public static User getUserByUsername(String username) throws SQLException {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        User acc = null;
-        try {
-            conn = DBConnection.getConnection();
-            String sql = "SELECT * FROM Users WHERE username = ?";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, username);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                acc = new User();
-                acc.setUser_id(rs.getInt("user_id"));
-                acc.setUsername(rs.getString("username"));
-                acc.setEmail(rs.getString("email"));
-                acc.setPhone_number(rs.getString("phone_number"));
-                acc.setAddress(rs.getString("address"));
-                acc.setPoint(rs.getInt("point"));
-                acc.setRole(rs.getInt("role"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return acc;
-    }
-
 }
