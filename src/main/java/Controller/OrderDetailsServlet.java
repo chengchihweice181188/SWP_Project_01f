@@ -4,24 +4,21 @@
  */
 package Controller;
 
-import DAO.PromotionDAO;
-import DAO.VoucherDAO;
-import Model.Promotion;
-import Model.Voucher;
+import DAO.OrderDAO;
+import Model.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
 
 /**
  *
  * @author Bang
  */
-public class ListPromotionServlet extends HttpServlet {
+public class OrderDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +37,10 @@ public class ListPromotionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListPromotionServlet</title>");
+            out.println("<title>Servlet OrderDetailsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListPromotionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,34 +58,28 @@ public class ListPromotionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PromotionDAO promotionDAO = new PromotionDAO();
-        List<Promotion> listPromotion = promotionDAO.getAllPromotions();
-        request.setAttribute("promotions", listPromotion);
-
-        VoucherDAO voucherDAO = new VoucherDAO();
-        List<Voucher> listVoucher = voucherDAO.getAllVouchers();
-        // Kiểm tra nếu có tham số tìm kiếm từ request
-        String searchCode = request.getParameter("search");
-        if (searchCode != null && !searchCode.trim().isEmpty()) {
-            // Lọc danh sách vouchers khớp với mã voucher nhập vào
-            List<Voucher> matchedVouchers = new ArrayList<>();
-            List<Voucher> unmatchedVouchers = new ArrayList<>();
-
-            for (Voucher voucher : listVoucher) {
-                if (voucher.getVoucherCode().equalsIgnoreCase(searchCode.trim())) {
-                    matchedVouchers.add(voucher);
-                } else {
-                    unmatchedVouchers.add(voucher);
-                }
+        try {
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            OrderDAO orderDAO = new OrderDAO();
+            Order order = orderDAO.getOrderById(orderId); // Lấy thông tin đơn hàng
+            if (order != null) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                Gson gson = new Gson();
+                String json = gson.toJson(order);
+                response.getWriter().write(json);
+            } else {
+                // Trả về thông báo lỗi nếu không tìm thấy đơn hàng
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Order not found");
             }
-            // Đưa các voucher khớp lên đầu danh sách
-            listVoucher.clear();
-            listVoucher.addAll(matchedVouchers);
-            listVoucher.addAll(unmatchedVouchers);
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp orderId không phải là số
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid order ID");
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error");
         }
-        request.setAttribute("vouchers", listVoucher);
-        // Chuyển tiếp request tới trang JSP để hiển thị
-        request.getRequestDispatcher("/promotion.jsp").forward(request, response);
 
     }
 

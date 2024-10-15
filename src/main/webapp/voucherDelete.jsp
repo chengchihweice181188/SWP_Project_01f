@@ -24,6 +24,7 @@
                 align-items: center;
                 z-index: 9999;
             }
+
             .popup {
                 background-color: #fff;
                 padding: 20px;
@@ -31,7 +32,64 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
                 max-width: 400px;
                 width: 90%;
+                text-align: center;
+                position: relative;
             }
+
+            .popup h2 {
+                margin-top: 0;
+            }
+
+            .popup p {
+                margin-bottom: 20px;
+            }
+
+            .popup form {
+                display: flex;
+                justify-content: space-between; /* Căn hai nút đối xứng */
+                align-items: center;
+                gap: 10px;
+            }
+
+            .popup form button {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                flex: 1; /* Đảm bảo nút chiếm cùng chiều rộng */
+                max-width: 45%; /* Giới hạn chiều rộng nút */
+            }
+
+            .popup form button[type="submit"] {
+                background-color: #f44336;
+                color: white;
+            }
+
+            .popup form button[type="button"] {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .popup form button:hover {
+                opacity: 0.9;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 20px;
+                cursor: pointer;
+                background: none;
+                border: none;
+            }
+            .popup form .form-group-inline {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
 
         </style>
         <script>
@@ -56,10 +114,15 @@
                 <form action="${pageContext.request.contextPath}/DeletePromotionServlet" method="post">
                     <input type="hidden" name="VoucherId" id="deleteVoucherId">
                     <input type="hidden" name="type" value="voucher">
-                    <button type="submit">Xóa</button>
-                    <button type="button" onclick="closeDeleteVoucherPopup()">Hủy</button>
+
+                    <!-- Nút Xóa và Hủy được căn ngang hàng -->
+                    <div class="form-group-inline">
+                        <button type="submit">Xóa</button>
+                        <button type="button" onclick="closeDeleteVoucherPopup()">Hủy</button>
+                    </div>
                 </form>
             </div>
         </div>
+
     </body>
 </html>

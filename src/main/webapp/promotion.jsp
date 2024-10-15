@@ -20,8 +20,170 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Quản lý Khuyến mãi</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/promotion.css">
+
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background: #fff9f0;
+            }
+
+            .sidebar {
+                width: 250px;
+                background-color: #f4a261;
+                height: 100vh;
+                position: fixed;
+                left: 0;
+                top: 0;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .sidebar ul {
+                list-style-type: disc;
+                padding-left: 20px;
+                margin-top: 20px;
+            }
+
+            .sidebar ul li {
+                margin-bottom: 15px;
+            }
+
+            .sidebar ul li a {
+                text-decoration: none;
+                color: #333;
+                font-size: 18px;
+                display: block;
+            }
+
+            .sidebar ul li a:hover {
+                color: #264653;
+            }
+
+            .btn-danger {
+                background-color: #e76f51;
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+                border-radius: 5px;
+            }
+
+            .main-content {
+                margin-left: 250px;
+                padding: 20px;
+                flex-grow: 1;
+            }
+
+            .promo-item {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .promo-item img {
+                width: 60px;
+                height: 60px;
+                margin-right: 10px;
+            }
+
+            .promo-item div {
+                flex: 1;
+                padding: 0 10px;
+            }
+
+            .actions {
+                display: flex;
+                gap: 10px;
+            }
+
+            .actions button {
+                padding: 5px 10px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            .edit-btn {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .delete-btn {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .search-bar {
+                display: flex;
+                justify-content: flex-end;
+                width: 300px;
+            }
+
+            .search-bar input {
+                padding: 8px;
+                width: 100%;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .header h2 {
+                font-size: 36px;
+                font-weight: bold;
+                color: #333;
+                margin: 0;
+            }
+
+            .header-actions {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 10px;
+                gap: 20px;
+            }
+
+            .btn-add {
+                padding: 8px 16px;
+                background-color: #6c757d;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+
+            .alert {
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+
+            .alert-success {
+                background-color: #d4edda;
+                color: #155724;
+            }
+
+            .alert-error {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+
+            .promo-list {
+                margin-top: 20px;
+            }
+
+
+        </style>
         <script>
             // Các hàm JavaScript để mở và đóng các popup
             function openCreatePromotionPopup() {
@@ -73,18 +235,25 @@
     <body>
 
         <div class="container">
+            <!-- Sidebar -->
             <div class="sidebar">
-                <h2>Food Fast Food</h2>
+                <div class="logo">
+                    <img src="food_logo.png" alt="Food Logo">
+                </div>
                 <ul class="menu-list">
-                    <li><a href="#">Quản lý danh mục</a></li>
-                    <li><a href="#">Quản lý sản phẩm</a></li>
-                    <li><a href="#">Quản lý lựa chọn</a></li>
-                    <li><a href="/Promotion" class="active">Quản lý khuyến mãi</a></li>
-                    <li><a href="#">Thống kê doanh thu</a></li>
-                    <li><a href="#">Thống kê sản phẩm</a></li>
-                    <li><a href="#">Xem danh sách đánh giá</a></li>
+                    <li><a href="${pageContext.request.contextPath}/OrderManagement">Quản lí đơn hàng</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Category">Quản lý danh mục</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Product">Quản lý sản phẩm</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Option">Quản lý lựa chọn</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Promotion">Quản lý khuyến mãi</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Revenue">Thống kê doanh thu</a></li>
+                    <li><a href="${pageContext.request.contextPath}/BestSeller">Thống kê sản phẩm</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Reviews">Xem danh sách đánh giá</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Account">Quản lí tài khoản</a></li>
                 </ul>
+                <button class="btn btn-danger">Logout</button>
             </div>
+
 
             <div class="main-content">
                 <%-- Display success or error messages --%>
@@ -108,11 +277,17 @@
                 %>
                 <div class="header">
                     <h2>Quản lý khuyến mãi</h2>
-                    <button onclick="openCreatePromotionPopup()" class="btn-add">Thêm khuyến mãi</button>
-                    <div class="search-bar">
-                        <input type="text" placeholder="Tìm kiếm khuyến mãi...">
-                    </div>
                 </div>
+                <div class="header-actions">
+                    <form class="search-bar" method="GET" action="${pageContext.request.contextPath}/Promotion">
+                        <input type="text" name="search" placeholder="Tìm kiếm khuyến mãi...">
+                        <button type="submit" class="btn-add">Tìm kiếm</button>
+                    </form>
+                    <button onclick="openCreatePromotionPopup()" class="btn-add">Thêm khuyến mãi</button>
+                </div>
+
+
+
 
                 <div class="promo-list">
                     <h3>Danh sách Promotions</h3>

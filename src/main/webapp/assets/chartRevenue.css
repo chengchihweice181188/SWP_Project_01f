@@ -1,0 +1,45 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 13, 2024, 2:39:31 PM
+    Author     : Bang
+*/
+
+.body{
+    background: #fff9f0; 
+}
+.sidebar{
+    width: 210px;
+    background-color:orange;
+    height: 100vh;
+    position: fixed;
+    left:0px;
+    top:0px;
+    margin-left: 0;
+}
+.logo{
+    width: 100%;
+    height: 100%;
+}
+.text{
+    text-decoration: none;
+    color: inherit;
+    font-size: 20px;
+    margin: 10px;
+}
+.table-container{
+    margin-left: 280px;
+    padding-top:20px;
+    max-width: 100%;
+    overflow-x:auto;
+}
+.btn {
+    padding: 5px 10px;
+    /* Nút bấm sẽ có khoảng cách bên trong (padding) 5px ở trên/dưới và 10px ở trái/phải */
+}
+#curve_chart {
+    width: 100%;   /* Chiếm toàn bộ chiều rộng của vùng chứa */
+    height: 800px; /* Chiều cao cố định */
+}

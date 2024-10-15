@@ -1,0 +1,23 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 13, 2024, 6:58:52 PM
+    Author     : Bang
+*/
+ #feedbackComment {
+        word-wrap: break-word;   /* Ngắt dòng khi văn bản quá dài */
+        white-space: normal;     /* Cho phép xuống dòng khi có khoảng trắng */
+    }
+    
+    /* Các thiết lập cho modal để có thể cuộn khi nội dung dài */
+    .modal-dialog {
+        max-width: 600px; /* Đặt chiều rộng tối đa cho modal */
+        width: 100%; /* Modal sẽ co dãn theo kích thước màn hình */
+    }
+
+    .modal-body {
+        max-height: 400px; /* Giới hạn chiều cao tối đa cho phần thân modal */
+        overflow-y: auto;  /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+    }

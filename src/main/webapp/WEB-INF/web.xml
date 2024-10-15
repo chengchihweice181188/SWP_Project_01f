@@ -32,6 +32,22 @@
         <servlet-name>DeletePromotionServlet</servlet-name>
         <servlet-class>Controller.DeletePromotionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RevenueServlet</servlet-name>
+        <servlet-class>Controller.RevenueServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <servlet-class>Controller.OrderDetailsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderFeedbackServlet</servlet-name>
+        <servlet-class>Controller.OrderFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BestSellerServlet</servlet-name>
+        <servlet-class>Controller.BestSellerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddCategoryServlet</servlet-name>
         <url-pattern>/AddCategoryServlet</url-pattern>
@@ -63,6 +79,22 @@
     <servlet-mapping>
         <servlet-name>DeletePromotionServlet</servlet-name>
         <url-pattern>/DeletePromotionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RevenueServlet</servlet-name>
+        <url-pattern>/Revenue</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <url-pattern>/OrderDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderFeedbackServlet</servlet-name>
+        <url-pattern>/OrderFeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BestSellerServlet</servlet-name>
+        <url-pattern>/BestSeller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

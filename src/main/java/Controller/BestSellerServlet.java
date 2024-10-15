@@ -4,24 +4,23 @@
  */
 package Controller;
 
-import DAO.PromotionDAO;
-import DAO.VoucherDAO;
-import Model.Promotion;
-import Model.Voucher;
+import DAO.ProductDAO;
+import Model.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Map;
 
 /**
  *
  * @author Bang
  */
-public class ListPromotionServlet extends HttpServlet {
+public class BestSellerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class ListPromotionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListPromotionServlet</title>");
+            out.println("<title>Servlet BestSellerController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListPromotionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BestSellerController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,38 +57,38 @@ public class ListPromotionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PromotionDAO promotionDAO = new PromotionDAO();
-        List<Promotion> listPromotion = promotionDAO.getAllPromotions();
-        request.setAttribute("promotions", listPromotion);
-
-        VoucherDAO voucherDAO = new VoucherDAO();
-        List<Voucher> listVoucher = voucherDAO.getAllVouchers();
-        // Kiểm tra nếu có tham số tìm kiếm từ request
-        String searchCode = request.getParameter("search");
-        if (searchCode != null && !searchCode.trim().isEmpty()) {
-            // Lọc danh sách vouchers khớp với mã voucher nhập vào
-            List<Voucher> matchedVouchers = new ArrayList<>();
-            List<Voucher> unmatchedVouchers = new ArrayList<>();
-
-            for (Voucher voucher : listVoucher) {
-                if (voucher.getVoucherCode().equalsIgnoreCase(searchCode.trim())) {
-                    matchedVouchers.add(voucher);
-                } else {
-                    unmatchedVouchers.add(voucher);
-                }
-            }
-            // Đưa các voucher khớp lên đầu danh sách
-            listVoucher.clear();
-            listVoucher.addAll(matchedVouchers);
-            listVoucher.addAll(unmatchedVouchers);
+        // Lấy năm từ tham số yêu cầu, nếu không có thì mặc định là năm hiện tại
+        String yearParam = request.getParameter("year");
+        int selectedYear;
+        if (yearParam != null) {
+            selectedYear = Integer.parseInt(yearParam);
+        } else {
+            selectedYear = LocalDate.now().getYear(); // Mặc định là năm hiện tại nếu không có tham số
         }
-        request.setAttribute("vouchers", listVoucher);
-        // Chuyển tiếp request tới trang JSP để hiển thị
-        request.getRequestDispatcher("/promotion.jsp").forward(request, response);
 
+        // Lấy tháng hiện tại
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        // Kiểm tra xem năm đang được yêu cầu có phải là năm hiện tại không
+        int displayMonth = selectedYear == currentYear ? currentMonth-1 : 12;
+
+        // Gọi DAO để lấy danh sách best seller theo từng tháng đã kết thúc
+        ProductDAO productDAO = new ProductDAO();
+        try {
+            Map<Integer, Product> bestSeller = productDAO.getBestSellersByYear(selectedYear, displayMonth);
+            request.setAttribute("bestSeller", bestSeller);
+            request.setAttribute("year", selectedYear);  // Truyền giá trị year xuống JSP
+            request.setAttribute("currentMonth", displayMonth);  // Chỉ truyền tháng cần hiển thị
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        request.getRequestDispatcher("/bestSeller.jsp").forward(request, response);
     }
 
     /**

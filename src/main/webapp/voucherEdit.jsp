@@ -25,7 +25,107 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Chỉnh sửa Voucher</title>
         <style>
-            /* CSS của bạn */
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background: #f9f9f9;
+            }
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: none;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .popup {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                width: 400px;
+                max-width: 100%;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                position: relative;
+            }
+
+            .popup h2 {
+                margin-top: 0;
+                text-align: center;
+                font-size: 24px;
+                color: #333;
+            }
+
+            .popup form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .popup form label {
+                font-weight: bold;
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            .popup form input[type="text"],
+            .popup form input[type="number"],
+            .popup form input[type="datetime-local"],
+            .popup form select {
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                background-color: #f9f9f9;
+            }
+
+            .popup form button[type="submit"],
+            .popup form button[type="button"] {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 48%;
+            }
+
+            .popup form .form-group-inline {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .popup form button[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .popup form button[type="button"] {
+                background-color: #f44336;
+                color: white;
+            }
+
+            .popup form button[type="submit"]:hover,
+            .popup form button[type="button"]:hover {
+                opacity: 0.9;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 20px;
+                cursor: pointer;
+                background: none;
+                border: none;
+            }
         </style>
         <script>
             // Hàm mở popup chỉnh sửa voucher
@@ -98,15 +198,23 @@
                 <h2>Chỉnh sửa Voucher</h2>
                 <form action="${pageContext.request.contextPath}/UpdatePromotionServlet" method="post">
                     <input type="hidden" name="voucherId" id="editVoucherId">
+                    <!-- Thêm label cho từng input -->
+                    <label for="editVoucherCode">Mã voucher</label>
                     <input type="text" name="voucherCode" id="editVoucherCode" placeholder="Mã voucher" required>
+                    <label for="editVoucherDiscount">Phần trăm giảm giá (%)</label>
                     <input type="number" name="voucherDiscount" id="editVoucherDiscount" placeholder="Nhập % giảm giá" required min="0" max="100" step="1" oninput="validateDiscount(this)">
+                    <label for="editVoucherValidFrom">Ngày bắt đầu</label>
                     <input type="datetime-local" name="voucherValidFrom" id="editVoucherValidFrom" required onchange="validateVoucherDates()">
+                    <label for="editVoucherValidTo">Ngày kết thúc</label>
                     <input type="datetime-local" name="voucherValidTo" id="editVoucherValidTo" required onchange="validateVoucherDates()">
+
                     <input type="hidden" name="type" value="voucher">
 
-
-                    <button type="submit">Lưu</button>
-                    <button type="button" onclick="closeEditVoucherPopup()">Hủy</button>
+                    <!-- Nút Lưu và Hủy được căn ngang hàng -->
+                    <div class="form-group-inline">
+                        <button type="submit">Lưu</button>
+                        <button type="button" onclick="closeEditVoucherPopup()">Hủy</button>
+                    </div>
                 </form>
             </div>
         </div>
