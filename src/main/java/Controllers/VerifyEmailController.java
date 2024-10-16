@@ -21,7 +21,6 @@ public class VerifyEmailController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getServletPath();
         if ("/verifyEmail".equals(action)) {
-            // Lấy mã xác thực từ request và session
             String verificationCode = request.getParameter("verificationCode");
             String sessionCode = (String) request.getSession().getAttribute("verificationCode");
             System.out.println("Mã xác thực người dùng nhập: " + verificationCode);
@@ -30,11 +29,8 @@ public class VerifyEmailController extends HttpServlet {
                 String username = (String) request.getSession().getAttribute("username");
                 String password = (String) request.getSession().getAttribute("password");
                 String email = (String) request.getSession().getAttribute("email");
-
-                // Đăng ký người dùng mới vào database
                 RegisterDAO registerDAO = new RegisterDAO();
                 String result = registerDAO.registerUser(username, password, email);
-
                 if ("SUCCESS".equals(result)) {
                     response.sendRedirect("login.jsp?msg=Xác thực thành công, bạn có thể đăng nhập.");
                 } else {
@@ -61,4 +57,3 @@ public class VerifyEmailController extends HttpServlet {
         return String.valueOf((int) ((Math.random() * 900000) + 100000));
     }
 }
-
