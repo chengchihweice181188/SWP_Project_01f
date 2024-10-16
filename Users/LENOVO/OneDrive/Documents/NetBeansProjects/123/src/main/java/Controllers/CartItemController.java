@@ -1,25 +1,50 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package Controllers;
-
 import DAOs.CartItemDAO;
-import Models.CartItem;
-import Models.Product;  // Thêm Product model
+import DAOs.ViewCategoryDAO;
 import DTOs.CartSummary;
+import Models.CartItem;
+import Models.Category;
+import Models.Product;
 import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "CartItemController", urlPatterns = {"/CartItem"})
+/**
+ *
+ * @author ASUS
+ */
 public class CartItemController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        // Display the cart
+        GetCartItem(request, response);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("add".equalsIgnoreCase(action)) {
+            AddCartItem(request, response);
+        } else if ("update".equalsIgnoreCase(action)) {
+//            UpdateCartItem(request, response);
+        } else if ("delete".equalsIgnoreCase(action)) {
+            DeleteCart(request, response);
+        }
+    }
+    private void GetCartItem(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
         int userId = 1; 
         CartItemDAO cartItemDAO = new CartItemDAO();
         
@@ -40,38 +65,49 @@ public class CartItemController extends HttpServlet {
             originalPrice += product.getProduct_price() * item.getQuantity();
         }
         double total = originalPrice - discount + shippingFee;
-
+                    ViewCategoryDAO dao = new ViewCategoryDAO();
+        List<Category> categoryList = dao.getAllCategories();
+        request.setAttribute("categoryList", categoryList);
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("products", products); 
         request.setAttribute("cartSummary", new CartSummary(originalPrice, discount, shippingFee, total));
         
         request.getRequestDispatcher("/CartItem.jsp").forward(request, response);
     }
+    
+    private void DeleteCart(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
+        CartItemDAO cartItemDAO = new CartItemDAO();
+        cartItemDAO.deleteCartItem(cartItemId);
+        response.sendRedirect("Cart");
+    }
+    
+    private void AddCartItem(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+//        int userId = Integer.parseInt(request.getParameter("userId"));
+//        int productId = Integer.parseInt(request.getParameter("productId"));
+//        int productOptionId = Integer.parseInt(request.getParameter("productOptionId"));
+//        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        int userId = 1;
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int productOptionId = 1;
+        int quantity = 1;
+        CartItem cartItem = new CartItem(0, userId, productId, productOptionId, quantity);
+        CartItemDAO cartItemDAO = new CartItemDAO();
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = request.getParameter("action");
-                    int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
-            CartItemDAO cartItemDAO = new CartItemDAO();
+        boolean isAdded = cartItemDAO.addCartItem(cartItem);
 
-            cartItemDAO.deleteCartItem(cartItemId);
-        if ("delete".equals(action)) {
-
-            response.sendRedirect("CartItem");
+        if (isAdded) {
+            response.sendRedirect("Cart"); 
         } else {
-            processRequest(request, response);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to add item to cart.");
         }
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
+    
     @Override
     public String getServletInfo() {
-        return "Servlet for displaying Cart Items";
-    }
+        return "Short description";
+    }// </editor-fold>
+
 }

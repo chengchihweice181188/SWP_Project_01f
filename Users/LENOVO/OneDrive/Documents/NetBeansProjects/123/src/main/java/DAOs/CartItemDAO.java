@@ -150,7 +150,7 @@ public class CartItemDAO {
     }
 
     public boolean deleteCartItem(int cart_item_id) {
-        String query = "?";
+        String query = "DELETE FROM CartItems WHERE cart_item_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
