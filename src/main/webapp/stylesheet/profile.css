@@ -1,60 +1,72 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : Oct 10, 2024, 3:37:42 PM
-    Author     : Luu Chi Khanh-CE181175
-*/
 body {
     font-family: Arial, sans-serif;
-    background-color: #e0e0e0;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
 }
-.profile-container {
-    background-color: #f2f2f2;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+.container {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 500px;
     text-align: center;
-    width: 600px;
 }
-.profile-container img {
+
+.logo {
     width: 150px;
+    height: auto;
     margin-bottom: 20px;
 }
-h2 {
-    color: #ff6600;
-    font-size: 36px;
+
+h1 {
+    color: #f16b00;
+    margin-bottom: 20px;
 }
-.profile-info {
+
+.account-info p {
     text-align: left;
-    margin-bottom: 30px;
-}
-.profile-info p {
     font-size: 18px;
     margin: 10px 0;
+    padding-left: 50px; /* Adjust the padding for better spacing */
 }
-.profile-info span {
-    font-weight: bold;
-}
-.button-container {
+
+.button-group {
+    margin-top: 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 10px;
 }
-.button-container button {
-    background-color: #ff6600;
-    color: white;
+
+button {
+    background-color: #f16b00;
     border: none;
+    color: white;
     padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 25px;
+    margin: 5px;
+    border-radius: 5px;
     cursor: pointer;
+    flex: 1; /* Ensure all buttons are of equal width */
 }
-.button-container button:hover {
-    background-color: #ff8533;
+
+button:hover {
+    background-color: #ff7f00;
+}
+
+/* Logout button specific styling */
+.logout-btn {
+    background-color: #D91C1C;
+}
+
+.logout-btn:hover {
+    background-color: #c31414; /* Darker shade for hover effect */
+}
+
+.auth-buttons {
+    display: inline;
 }
