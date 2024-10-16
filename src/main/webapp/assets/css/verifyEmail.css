@@ -7,12 +7,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : tvhun
 */
 
-
-/* 
-    Created on : Oct 11, 2024, 9:27:21 AM
-    Author     : tvhun
-*/
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5;
@@ -80,14 +74,5 @@ form button:active {
     background-color: #004494;
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 50px;
-    }
-
-    form input[type="text"], form button {
-        font-size: 30px;
-    }
-}
 
 

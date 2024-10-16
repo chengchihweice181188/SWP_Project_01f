@@ -16,16 +16,14 @@
     </head>
     <body>
         <div class="register-container">
-             <div class="logo">
+            <div class="logo">
                 <img src="WebLogo/logo.jpg" alt="Fast Food Logo">
-             </div>
+            </div>
             <h2>Đăng ký</h2>
             <form action="Register" method="POST" name="registerForm" onsubmit="return validateForm()">
                 <input type="text" placeholder="Tên người dùng" name="username" required>
                 <input type="password" placeholder="Mật khẩu" name="password" required>
                 <input type="email" placeholder="Email" name="email" required>
-                <input type="tel" placeholder="Số điện thoại" name="phone" required>
-                <input type="text" placeholder="Địa chỉ" name="address" required>
                 <button type="submit" class="login-btn">Đăng ký</button>
                 <p>Đã có tài khoản? <a href="index.jsp" class="register-link">Đăng nhập</a></p>
                 <c:if test="${not empty msg}">

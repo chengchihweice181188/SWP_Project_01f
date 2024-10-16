@@ -21,7 +21,7 @@ public class RegisterDAO {
             return rs.next();  // Nếu có bản ghi thì trả về true
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;  
+            return false;
         }
     }
 
@@ -38,15 +38,13 @@ public class RegisterDAO {
         return false;
     }
 
-    public String registerUser(String username, String password, String email, String phone, String address) {
+    public String registerUser(String username, String password, String email) {
         try ( Connection connection = DBConnection.getConnection()) {
-            String insertQuery = "INSERT INTO Users (username, password, email, phone_number, address, role) VALUES (?, ?, ?, ?, ?, 2)";
+            String insertQuery = "INSERT INTO Users (username, password, email,role) VALUES (?, ?, ?, 2)";
             PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
             insertStatement.setString(1, username);
             insertStatement.setString(2, password);
             insertStatement.setString(3, email);
-            insertStatement.setString(4, phone);
-            insertStatement.setString(5, address);
             int affectedRows = insertStatement.executeUpdate();
 
             if (affectedRows > 0) {
