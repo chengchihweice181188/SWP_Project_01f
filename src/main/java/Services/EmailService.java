@@ -37,10 +37,9 @@ public class EmailService {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            message.setSubject("Xác nhận đăng kí tài khoản", "UTF-8");
-            message.setText("Chào bạn,vui lòng xác minh email bằng mã code này: "
+            message.setSubject("Xác nhận đăng ký tài khoản", "UTF-8");
+            message.setText("Chào bạn,\n\nCảm ơn bạn đã đăng ký. Vui lòng xác thực tài khoản bằng mã code này: "
                     + verificationCode, "UTF-8");
-
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

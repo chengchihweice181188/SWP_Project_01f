@@ -15,10 +15,10 @@
     <body>
         <div class="container">
             <h2>Xác nhận Email</h2>
-            <c:if test="${not empty msg}">
-                <p class="error-message">${msg}</p>
-            </c:if>
             <form action="verifyEmail" method="POST">
+                <c:if test="${not empty msg}">
+                    <div class="error">${msg}</div>
+                </c:if>
                 <input type="text" name="verificationCode" placeholder="Nhập mã xác thực" required>
                 <button type="submit">Xác nhận</button>
             </form>

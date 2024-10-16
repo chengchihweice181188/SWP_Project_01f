@@ -24,12 +24,12 @@ import java.io.IOException;
  *
  * @author tvhun
  */
-@WebServlet(name = "GoogleLoginServlet", urlPatterns = {"/GoogleLoginServlet"})
+@WebServlet(name = "GoogleLogin", urlPatterns = {"/GoogleLogin"})
 public class GoogleLoginServlet extends HttpServlet {
 
     private static final String CLIENT_ID = "602177457145-hq560vlldmpkad94eo4ssso6qnsvbk8e.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "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";
-    private static final String REDIRECT_URI = "http://localhost:8080/GoogleLoginServlet";
+    private static final String REDIRECT_URI = "http://localhost:8080/GoogleLogin";
 
     private final JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
@@ -66,7 +66,7 @@ public class GoogleLoginServlet extends HttpServlet {
                 request.getSession().setAttribute("email", email);
                 response.sendRedirect("navbar.jsp");
             } else {
-                registerDAO.registerUser("", "", email, "", "");
+                registerDAO.registerUser("", "", email);
                 request.getSession().setAttribute("email", email);
                 response.sendRedirect("navbar.jsp");
             }
