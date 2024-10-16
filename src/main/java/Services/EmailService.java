@@ -40,7 +40,6 @@ public class EmailService {
             message.setSubject("Xác nhận đăng ký tài khoản", "UTF-8");
             message.setText("Chào bạn,\n\nCảm ơn bạn đã đăng ký. Vui lòng xác thực tài khoản bằng mã code này: "
                     + verificationCode, "UTF-8");
-
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

@@ -21,7 +21,6 @@ public class RegisterController extends HttpServlet {
             throws ServletException, IOException {
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,6 +36,7 @@ public class RegisterController extends HttpServlet {
             request.setAttribute("msg", "Email đã tồn tại, vui lòng thử lại.");
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
+
         }
 
         int verificationCode = (int) (Math.random() * 900000) + 100000;
