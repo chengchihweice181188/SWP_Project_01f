@@ -1,0 +1,65 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 18, 2024, 8:00:58 PM
+    Author     : tvhun
+*/
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Table styling */
+#ratingTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#ratingTable th, #ratingTable td {
+    text-align: center;
+    padding: 10px;
+}
+
+#ratingTable thead th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Row hover effect */
+#ratingTable tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Center align heading */
+h2.text-center {
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    #ratingTable th, #ratingTable td {
+        font-size: 14px;
+        padding: 5px;
+    }
+}
+
+/* Additional styling */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #ddd;
+}
