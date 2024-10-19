@@ -1,0 +1,92 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #d0d0d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container chính chứa logo và thông tin tài khoản */
+.account-details-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;  /* Center-align logo and form vertically */
+    justify-content: space-between;
+    width: 800px;
+    max-width: 100%;
+}
+
+/* Logo của trang */
+.logo-container {
+    display: flex;
+    justify-content: center;  /* Center-align the logo horizontally */
+    align-items: center;       /* Center-align the logo vertically */
+    margin-right: 40px;        /* Adds space between the logo and the form */
+}
+
+.logo-container img {
+    width: 250px;
+    height: auto;
+}
+
+/* Thông tin tài khoản */
+.account-info {
+    flex: 1;
+}
+
+.account-info h2 {
+    color: #f1691a;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Mỗi input và label đều được bao quanh bởi input-container */
+.input-container {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Thiết lập chung cho tất cả các input */
+.input-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f6eeee;
+    box-sizing: border-box;
+}
+
+/* Phần nút bấm */
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.buttons button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f77225;
+    color: white;
+    width: 200px;
+}
+
+.buttons button:hover {
+    background-color: #f1691a;
+}

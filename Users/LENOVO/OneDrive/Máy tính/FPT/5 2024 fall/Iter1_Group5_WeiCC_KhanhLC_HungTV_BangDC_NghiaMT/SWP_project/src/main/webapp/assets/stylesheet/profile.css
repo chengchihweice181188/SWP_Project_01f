@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #f16b00;
+    margin-bottom: 20px;
+}
+
+.account-info p {
+    text-align: left;
+    font-size: 18px;
+    margin: 10px 0;
+    padding-left: 50px; /* Adjust the padding for better spacing */
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    background-color: #f16b00;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1; /* Ensure all buttons are of equal width */
+}
+
+button:hover {
+    background-color: #ff7f00;
+}
+
+/* Logout button specific styling */
+.logout-btn {
+    background-color: #D91C1C;
+}
+
+.logout-btn:hover {
+    background-color: #c31414; /* Darker shade for hover effect */
+}
+
+.auth-buttons {
+    display: inline;
+}
