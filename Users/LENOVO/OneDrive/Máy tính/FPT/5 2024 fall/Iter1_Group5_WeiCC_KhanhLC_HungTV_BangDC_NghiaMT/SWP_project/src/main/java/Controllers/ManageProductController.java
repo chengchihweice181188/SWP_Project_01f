@@ -24,11 +24,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, // 1MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 15 // 15MB
-)
+@MultipartConfig
 /**
  *
  * @author LENOVO
@@ -136,42 +132,111 @@ public class ManageProductController extends HttpServlet {
         if (request.getParameter("btnAddProduct") != null) {
             String productName = request.getParameter("txtProName");
             String productDescription = request.getParameter("txtProDes");
-            double productPrice = Double.parseDouble(request.getParameter("txtProPrice"));
-            Part cover = request.getPart("txtProImg"); // For file upload, make sure your form enctype is multipart/form-data
-            int categoryId = Integer.parseInt(request.getParameter("txtCatId"));
-            String coverPath = handleFileUpload(cover);
-            Product obj = new Product(productName, productDescription, productPrice, coverPath, categoryId);
-            ManageProductDAO dao = new ManageProductDAO();
-            int count = dao.addProduct(obj);
-            if (count > 0) {
-                response.sendRedirect("/ManageProduct");
-            } else {
+            String productPriceStr = request.getParameter("txtProPrice");
+            boolean hasError = false;
+            // Kiểm tra độ dài tên
+            if (productName.length() > 50) {
+                String nameError = "(*)Tên không được dài quá 50 ký tự";
+                hasError = true;
+                request.getSession().setAttribute("nameError", nameError);
+            }
+            // Kiểm tra độ dài mô tả
+            if (productDescription.length() > 255) {
+                String desError = "(*)Mô tả không được dài quá 255 ký tự";
+                hasError = true;
+                request.getSession().setAttribute("desError", desError);
+            }
+            // Kiểm tra giá sản phẩm
+            double productPrice = 0;
+            productPrice = Double.parseDouble(productPriceStr);
+            if (productPrice < 1000) {
+                String priceError = "(*)Giá sản phẩm phải từ 1000đ trở lên";
+                hasError = true;
+                request.getSession().setAttribute("priceError", priceError);
+            }
+            // Kiểm tra dung lượng file ảnh
+            Part cover = request.getPart("txtProImg");
+            long fileSize = cover.getSize();
+            long maxFileSize = 1024 * 1024 * 2; // Giới hạn file 1MB
+            if (fileSize > maxFileSize) {
+                String fileError = "(*)Dung lượng ảnh không được vượt quá 2MB";
+                hasError = true;
+                request.getSession().setAttribute("fileError", fileError);
+            }
+            // Nếu có lỗi, trả về trang và hiển thị lỗi
+            if (hasError) {
                 response.sendRedirect("/ManageProduct/Add");
+            } else {
+                int categoryId = Integer.parseInt(request.getParameter("txtCatId"));
+                String coverPath = handleFileUpload(cover);
+                Product obj = new Product(productName, productDescription, productPrice, coverPath, categoryId);
+                ManageProductDAO dao = new ManageProductDAO();
+                int count = dao.addProduct(obj);
+                if (count > 0) {
+                    response.sendRedirect("/ManageProduct");
+                } else {
+                    request.getRequestDispatcher("/ManageProduct/Add").forward(request, response);
+                }
             }
         }
         if (request.getParameter("btnUpdateProduct") != null) {
             int productId = Integer.parseInt(request.getParameter("txtProId"));
             String productName = request.getParameter("txtProName");
             String productDescription = request.getParameter("txtProDes");
-            double productPrice = Double.parseDouble(request.getParameter("txtProPrice"));
+            String productPriceStr = request.getParameter("txtProPrice");
             int categoryId = Integer.parseInt(request.getParameter("txtCatId"));
-            ManageProductDAO dao = new ManageProductDAO();
-            int count;
-            Part cover = request.getPart("txtProImg"); // For file upload, make sure your form enctype is multipart/form-data
-            // Kiểm tra nếu người dùng có chọn ảnh mới hay không. Kiểu Part luôn khác null nên so sánh kích thước
-            if (cover != null && cover.getSize() > 0) {
-                String coverPath = handleFileUpload(cover);
-                Product obj = new Product(productId, productName, productDescription, productPrice, coverPath, categoryId);
-                count = dao.updateProduct(obj);
-            } else {
-                // Giữ nguyên ảnh cũ nếu không có ảnh mới
-                Product obj = new Product(productId, productName, productDescription, productPrice, categoryId);
-                count = dao.updateProductWithoutImg(obj);
+            boolean hasError = false;
+            // Kiểm tra độ dài tên
+            if (productName.length() > 50) {
+                String nameError = "(*)Tên không được dài quá 50 ký tự";
+                hasError = true;
+                request.getSession().setAttribute("nameError", nameError);
             }
-            if (count > 0) {
-                response.sendRedirect("/ManageProduct");
-            } else {
+            // Kiểm tra độ dài mô tả
+            if (productDescription.length() > 255) {
+                String desError = "(*)Mô tả không được dài quá 255 ký tự";
+                hasError = true;
+                request.getSession().setAttribute("desError", desError);
+            }
+            // Kiểm tra giá sản phẩm
+            double productPrice = 0;
+            productPrice = Double.parseDouble(productPriceStr);
+            if (productPrice < 1000) {
+                String priceError = "(*)Giá sản phẩm phải từ 1000đ trở lên";
+                hasError = true;
+                request.getSession().setAttribute("priceError", priceError);
+            }
+            // Kiểm tra dung lượng file ảnh
+            Part cover = request.getPart("txtProImg");
+            long fileSize = cover.getSize();
+            long maxFileSize = 1024 * 1024 * 2; // Giới hạn file 2MB
+            if (cover != null && fileSize > maxFileSize) {
+                String fileError = "(*)Dung lượng ảnh không được vượt quá 2MB";
+                hasError = true;
+                request.getSession().setAttribute("fileError", fileError);
+            }
+            // Nếu có lỗi, trả về trang và hiển thị lỗi
+            if (hasError) {
                 response.sendRedirect("/ManageProduct/Edit/" + productId);
+            } else {
+                ManageProductDAO dao = new ManageProductDAO();
+                int count;
+                // Kiểm tra nếu người dùng có chọn ảnh mới hay không. Kiểu Part luôn khác null nên so sánh kích thước
+                if (fileSize > 0) {
+                    String coverPath = handleFileUpload(cover);
+                    Product obj = new Product(productId, productName, productDescription, productPrice, coverPath, categoryId);
+                    count = dao.updateProduct(obj);
+                } else {
+                    // Giữ nguyên ảnh cũ nếu không có ảnh mới
+                    Product obj = new Product(productId, productName, productDescription, productPrice, categoryId);
+                    count = dao.updateProductWithoutImg(obj);
+                }
+                // Kiểm tra kết quả cập nhật
+                if (count > 0) {
+                    response.sendRedirect("/ManageProduct");
+                } else {
+                    response.sendRedirect("/ManageProduct/Edit/" + productId);
+                }
             }
         }
     }

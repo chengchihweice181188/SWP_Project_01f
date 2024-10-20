@@ -77,31 +77,31 @@
         <%@ include file="manageBar.jsp" %> 
         <div class="container-edit">
             <h1 class="center">Quản lí sản phẩm</h1>
-            <c:if test="${not empty catError}">
-                <div id="failureAlert" class="alert alert-success alert-dismissible alert-edit" role="alert">
-                    Hệ thống hiện không có danh mục để tạo sản phẩm. Vui lòng tạo danh mục trước.
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">X</button>
-                </div>
-                <!--Xóa biến khỏi session-->
-                <c:remove var="errorMessage" scope="session"/>
-            </c:if>
             <c:if test="${empty productList}">
                 <h2 class="no-product">Hiện không có sản phẩm nào</h2>
             </c:if> 
+            <c:if test="${not empty catError}">
+                <div id="failureAlert" class="alert alert-success alert-dismissible alert-edit" role="alert">
+                    Hệ thống hiện không có danh mục để tạo sản phẩm. Vui lòng tạo danh mục trong "Quản lí danh mục" trước.
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">X</button>
+                </div>
+                <!--Xóa biến khỏi session-->
+                <c:remove var="catError" scope="session"/>
+            </c:if>
             <a class="btn btn-success btn-add" href="/ManageProduct/Add">Thêm</a>
-            <c:if test="${not empty productList}">
-                <table id="table1" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tên</th>
-                            <th>Ảnh</th>
-                            <th>Mô tả</th>
-                            <th>Giá (đ)</th>
-                            <th>Danh mục</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
+            <table id="table1" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Giá (đ)</th>
+                        <th>Danh mục</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <c:if test="${not empty productList}">
                     <tbody>
                         <c:forEach var="productVar" items="${productList}">
                             <tr>

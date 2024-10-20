@@ -74,12 +74,6 @@
                 padding-left: 80px;
                 width: 100%;
             }
-            .margin-padding{
-                margin: 0px;
-                padding: 0px;
-                display: flex;
-                justify-content: space-between;
-            }
             .pop-up {
                 display: none;
                 position: fixed;
@@ -207,7 +201,7 @@
                                         onchange="updatePrice('${productVar.product_price}', '${productVar.product_id}', document.getElementById('popupQuantity_${productVar.product_id}').value, this.value)">
                                     <option value="0">Mặc định</option>
                                     <c:forEach var="optionVar" items="${productVar.options}">
-                                        <option value="${optionVar.price_adjustment}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
+                                        <option value="${optionVar.option_id}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
                                     </c:forEach>
                                 </select>
                                 <input type="hidden" name="action" value="add">
@@ -224,11 +218,9 @@
         </div>
         <div class="overlay" id="overlay"></div>
         <footer class="footer-edit">
-            <ul class="margin-padding">
-                <div>Email: swpffshopgroup@gmail.comdivli>
-                    <div>Số điện thoại: 0921183265</div>
-                    <div>Địa chỉ: 311/10/14A, đường Nguyễn Văn Cừ, phường An Hòa, quận Ninh Kiều, thành phố Cần Thơ</div>
-            </ul>
+            <div>Email: swpffshopgroup@gmail.com</div>
+            <div>Số điện thoại: 0921183265</div>
+            <div>Địa chỉ: 311/10/14A, đường Nguyễn Văn Cừ, phường An Hòa, quận Ninh Kiều, thành phố Cần Thơ</div>
         </footer>
     </body>
 </html>
