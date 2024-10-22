@@ -20,6 +20,11 @@ public class User {
     private int role;
     private int user_status;
 
+    public User(int user_id, int user_status) {
+        this.user_id = user_id;
+        this.user_status = user_status;
+    }
+
     public int getUser_id() {
         return user_id;
     }

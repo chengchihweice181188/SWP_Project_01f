@@ -27,7 +27,7 @@
                     "language": {
                         "lengthMenu": "Số lượng hiển thị: _MENU_", // Entries per page
                         "search": "Tìm kiếm:", // Search box label
-                        "info": "Hiển thị _START_ đến _END_ trong _TOTAL_ sản phẩm", // Showing entries info
+                        "info": "Hiển thị _START_ đến _END_ trong _TOTAL_ tài khoản", // Showing entries info
                         "paginate": {
                             "first": "Đầu tiên",
                             "last": "Cuối cùng",
@@ -66,6 +66,7 @@
             }
             .container-edit{
                 margin-left: 280px;
+                padding: 0 150px 0 150px;
                 margin-right: 50px;
             }
             .btn-add{
@@ -76,46 +77,46 @@
     <body class="body">
         <%@ include file="manageBar.jsp" %> 
         <div class="container-edit">
-            <h1 class="center">Quản lí sản phẩm</h1>
-            <c:if test="${empty productList}">
-                <h2 class="no-product">Hiện không có sản phẩm nào</h2>
+            <h1 class="center">Quản lí tài khoản</h1>
+            <c:if test="${empty userList}">
+                <h2 class="no-product">Hiện không có tài khoản nào</h2>
             </c:if> 
-            <c:if test="${not empty catError}">
+            <c:if test="${not empty msg}">
                 <div id="failureAlert" class="alert alert-success alert-dismissible alert-edit" role="alert">
-                    Hệ thống hiện không có danh mục để tạo sản phẩm. Vui lòng tạo danh mục trong "Quản lí danh mục" trước.
+                    ${msg}
                     <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">X</button>
                 </div>
                 <!--Xóa biến khỏi session-->
-                <c:remove var="catError" scope="session"/>
+                <c:remove var="msg" scope="session"/>
             </c:if>
-            <a class="btn btn-success btn-add" href="/ManageProduct/Add">Thêm</a>
             <table id="table1" class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên</th>
-                        <th>Ảnh</th>
-                        <th>Mô tả</th>
-                        <th>Giá (ngàn đ)</th>
-                        <th>Danh mục</th>
-                        <th>Hành động</th>
+                        <th>Email</th>
+                        <th>Loại</th>
+                        <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <c:if test="${not empty productList}">
+                <c:if test="${not empty userList}">
                     <tbody>
-                        <c:forEach var="productVar" items="${productList}">
+                        <c:forEach var="userVar" items="${userList}">
                             <tr>
-                                <td>${productVar.product_id}</td>
-                                <td>${productVar.product_name}</td>
+                                <td>${userVar.user_id}</td>
+                                <td>${userVar.email}</td>
                                 <td>
-                                    <img src="/ProductImg/${productVar.product_image}" alt="${productVar.product_name}" class="product-img">
+                                    <!-- Toán tử 3 ngôi -->
+                                    ${userVar.role == 2 ? 'Khách hàng' : 'Nhân viên'}
                                 </td>
-                                <td>${productVar.product_description}</td>
-                                <td>${productVar.product_price}</td>
-                                <td>${productVar.category_name}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-edit" href="/ManageProduct/Edit/${productVar.product_id}">Chỉnh sửa</a>
-                                    <a class="btn btn-danger btn-edit" href="/ManageProduct/Delete/${productVar.product_id}"onclick="return confirm('Bạn muốn xóa sản phẩm này?')" >Xóa</a>
+                                    <form action="ManageAccount" method="POST">
+                                        <select name="txtUserStatus">
+                                            <option value="0" ${userVar.user_status == 0 ? 'selected' : ''}>Mở</option>
+                                            <option value="1" ${userVar.user_status == 1 ? 'selected' : ''}>Khóa</option>
+                                        </select>
+                                        <input type="hidden" name="txtUserId" value="${userVar.user_id}"/> <!-- id của tài khoản được chỉnh sửa -->
+                                        <input type="submit" name="btnChangeStatus" value="Cập nhật" class="btn btn-primary submit-btn"/>
+                                    </form>
                                 </td>
                             </tr>
                         </c:forEach>

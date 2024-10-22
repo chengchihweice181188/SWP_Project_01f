@@ -8,6 +8,10 @@
         <servlet-name>ManageProductController</servlet-name>
         <servlet-class>Controllers.ManageProductController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManageAccountController</servlet-name>
+        <servlet-class>Controllers.ManageAccountController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewCategoryController</servlet-name>
         <url-pattern>/ViewCategory/*</url-pattern>
@@ -77,7 +81,6 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
-
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>Filters.LoginFilter</filter-class>
@@ -98,6 +101,10 @@
     <servlet-mapping>
         <servlet-name>ViewProfileController</servlet-name>
         <url-pattern>/Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageAccountController</servlet-name>
+        <url-pattern>/ManageAccount/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

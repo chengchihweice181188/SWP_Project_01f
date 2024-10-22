@@ -108,7 +108,7 @@
                 <a href="#" class="text">Thống kê doanh thu</a>
                 <a href="#" class="text">Thống kê sản phẩm</a>
                 <a href="#" class="text">Xem danh sách đánh giá</a>
-                <a href="#" class="text">Quản lí tài khoản</a>
+                <a href="/ManageAccount" class="text">Quản lí tài khoản</a>
             </div>
             <form action="Logout" method="post" onsubmit="confirmLogout(event)">
                 <div class="auth-buttons">

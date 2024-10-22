@@ -209,9 +209,9 @@ public class ManageProductController extends HttpServlet {
             // Kiểm tra dung lượng file ảnh
             Part cover = request.getPart("txtProImg");
             long fileSize = cover.getSize();
-            long maxFileSize = 1024 * 1024 * 2; // Giới hạn file 2MB
+            long maxFileSize = 1024 * 1024 * 5; // Giới hạn file 5MB
             if (cover != null && fileSize > maxFileSize) {
-                String fileError = "(*)Dung lượng ảnh không được vượt quá 2MB";
+                String fileError = "(*)Dung lượng ảnh không được vượt quá 5MB";
                 hasError = true;
                 request.getSession().setAttribute("fileError", fileError);
             }
