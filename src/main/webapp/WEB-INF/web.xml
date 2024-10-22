@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
+        <servlet-name>ViewCategoryController</servlet-name>
+        <servlet-class>Controllers.ViewCategoryController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageProductController</servlet-name>
+        <servlet-class>Controllers.ManageProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyEmailRSPController</servlet-name>
+        <servlet-class>Controllers.VerifyEmailRSPController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <servlet-class>Controllers.ResetPasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ForgetPasswordController</servlet-name>
+        <servlet-class>Controllers.ForgetPasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewRatingController</servlet-name>
+        <servlet-class>Controllers.ViewRatingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRatingController</servlet-name>
+        <servlet-class>Controllers.DeleteRatingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ForgetPasswordController</servlet-name>
+        <url-pattern>/ForgetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCategoryController</servlet-name>
+        <url-pattern>/ViewCategory/*</url-pattern>
+        <url-pattern/>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageProductController</servlet-name>
+        <url-pattern>/ManageProduct/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CartItem</servlet-name>
+        <servlet-class>Controllers.CartItemController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CartItem</servlet-name>
+        <url-pattern>/Cart</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>Controllers.LoginController</servlet-class>
     </servlet>
@@ -8,13 +57,94 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>Controllers.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderManagementController</servlet-name>
+        <servlet-class>Controllers.OrderManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderController</servlet-name>
+        <servlet-class>Controllers.UpdateOrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileController</servlet-name>
+        <servlet-class>Controllers.UpdateProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>Controllers.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <servlet-class>Controllers.ChangePasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewProfileController</servlet-name>
+        <servlet-class>Controllers.ViewProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>LoginController</servlet-name>
-        <url-pattern>/LoginController</url-pattern>
+        <servlet-name>OrderManagementController</servlet-name>
+        <url-pattern>/OrderManagement</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProfileController</servlet-name>
+        <servlet-name>UpdateOrderController</servlet-name>
+        <url-pattern>/UpdateOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileController</servlet-name>
+        <url-pattern>/UpdateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <url-pattern>/ChangePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>Filters.LoginFilter</filter-class>
+        <!-- Đảm bảo đường dẫn đúng -->
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/Cart</url-pattern>
+        <!-- Thay đổi đường dẫn URL theo logic của bạn -->
+        <url-pattern>/Notifications</url-pattern>
+        <url-pattern>/Order</url-pattern>
         <url-pattern>/Profile</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>CreateRatingController</servlet-name>
+        <servlet-class>Controllers.CreateRatingController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewProfileController</servlet-name>
+        <url-pattern>/Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyEmailRSPController</servlet-name>
+        <url-pattern>/VerifyEmailRSP</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordController</servlet-name>
+        <url-pattern>/ResetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRatingController</servlet-name>
+        <url-pattern>/CreateRating</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRatingController</servlet-name>
+        <url-pattern>/ViewRating</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRatingController</servlet-name>
+        <url-pattern>/DeleteRating</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
