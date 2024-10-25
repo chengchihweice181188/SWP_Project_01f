@@ -51,7 +51,6 @@
             text-align: right; /* Căn phải nội dung trong label */
             margin-right: 10px;
         }
-
         .row-edit input {
             flex: 1; /* Đặt input chiếm phần còn lại của hàng */
         }
@@ -91,7 +90,7 @@
                     </c:if>
                     <div class="row-edit">
                         <label for="txtProPrice">Giá (đ)&nbsp;</label>
-                        <input type="number" name="txtProPrice" class="txt-box" step="0.001" required/>
+                        <input type="number" name="txtProPrice" class="txt-box" min="1" required/>
                     </div>
                     <c:if test="${not empty fileError}">
                         <h4 class="h4-edit">${fileError}</h4>

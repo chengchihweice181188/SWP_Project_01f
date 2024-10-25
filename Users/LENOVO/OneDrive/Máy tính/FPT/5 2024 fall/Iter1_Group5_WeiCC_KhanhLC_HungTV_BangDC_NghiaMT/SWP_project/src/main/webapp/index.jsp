@@ -64,9 +64,13 @@
                 text-overflow: ellipsis;/* Hiển thị dấu "..." khi nội dung quá dài */
                 font-weight: bold;
             }
-            .text{
+            .cat-name{
                 text-decoration: none;
                 color: inherit;
+            }
+            .cat-name:hover {
+                background-color: #FF6F1C;
+                color: white;
             }
             .footer-edit{
                 background: black;
@@ -151,10 +155,12 @@
                 }
                 // Tính toán giá cuối cùng
                 var finalPrice = (parseInt(basePrice) + optionPrice) * quantityValue;
-                // Cập nhật giá trị trong nút "Thêm"
-                document.getElementById("popupPrice_" + productId).innerText = "Thêm: " + finalPrice + "đ";
+                // Định dạng finalPrice thành chuỗi với 3 chữ số thập phân
+                var formattedPrice = finalPrice.toFixed(3);
+                // Cập nhật giá trị trong nút "Thêm" với định dạng 3 số thập phân
+                document.getElementById("popupPrice_" + productId).innerText = "Thêm: " + formattedPrice + "đ";
                 // Cập nhật giá trị vào input ẩn để khi submit form có giá trị này
-                document.getElementById("finalPrice_" + productId).value = finalPrice;
+                document.getElementById("finalPrice_" + productId).value = formattedPrice;
             }
         </script>
     </head>
@@ -162,9 +168,9 @@
         <%@ include file="navbar.jsp" %> 
         <img class="background" src="/WebLogo/background.jpg">
         <div class="category">
-            &nbsp;<a href="/" class="text">Tất cả</a> &nbsp;
+            &nbsp;<a href="/" class="cat-name">Tất cả</a> &nbsp;
             <c:forEach var="categoryVar" items="${categoryList}">
-                &nbsp;<a href="/ViewCategory/Category/${categoryVar.category_id}" class="text">${categoryVar.category_name}</a> &nbsp;
+                &nbsp;<a href="/ViewCategory/Category/${categoryVar.category_id}" class="cat-name">${categoryVar.category_name}</a> &nbsp;
             </c:forEach>
         </div>
         <c:if test="${empty productList}">
@@ -182,7 +188,7 @@
                                         '${productVar.product_description}',
                                         '${productVar.product_price}',
                                         '${productVar.product_id}'
-                                        )">Chọn: ${productVar.product_price}đ</button>
+                                        )">Chọn: ${String.format("%.3f", productVar.product_price)}đ</button>
                     </div>
                     <div class="pop-up row" id="popup_${productVar.product_id}" style="display:none;">
                         <div class="col">
@@ -195,13 +201,21 @@
                             <form action="/Cart" method="POST">
                                 Số lượng:
                                 <input type="number" class="full-width" id="popupQuantity_${productVar.product_id}" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"
-                                       onchange="updatePrice('${productVar.product_price}', '${productVar.product_id}', this.value, document.getElementById('popupOption_${productVar.product_id}').value)"/><br>
+                                       onchange="updatePrice('${productVar.product_price}',
+                                                       '${productVar.product_id}',
+                                                       this.value,
+                                                       document.getElementById('popupOption_${productVar.product_id}').options[document.getElementById('popupOption_${productVar.product_id}').selectedIndex].getAttribute('data-price-adjustment'))"/><br>
                                 Tùy chỉnh:
                                 <select name="productOptionId" class="full-width" id="popupOption_${productVar.product_id}"
-                                        onchange="updatePrice('${productVar.product_price}', '${productVar.product_id}', document.getElementById('popupQuantity_${productVar.product_id}').value, this.value)">
+                                        onchange="updatePrice('${productVar.product_price}',
+                                                        '${productVar.product_id}',
+                                                        document.getElementById('popupQuantity_${productVar.product_id}').value,
+                                                        this.options[this.selectedIndex].getAttribute('data-price-adjustment'))">
                                     <option value="0">Mặc định</option>
                                     <c:forEach var="optionVar" items="${productVar.options}">
-                                        <option value="${optionVar.option_id}">${optionVar.option_name} - ${optionVar.price_adjustment}đ</option>
+                                        <option value="${optionVar.option_id}" data-price-adjustment="${String.format('%.3f', optionVar.price_adjustment)}">
+                                            ${optionVar.option_name} - ${String.format('%.3f', optionVar.price_adjustment)}đ
+                                        </option>
                                     </c:forEach>
                                 </select>
                                 <input type="hidden" name="action" value="add">

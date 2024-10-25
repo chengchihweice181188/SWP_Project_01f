@@ -83,6 +83,9 @@ public class ManageProductController extends HttpServlet {
                 ManageProductDAO dao = new ManageProductDAO();
                 dao.deleteProduct(id);
                 dao.deleteProductOptions(id);
+                dao.deletePromotions(id);
+                String msg = "Xóa sản phẩm thành công";
+                request.getSession().setAttribute("msg", msg);
                 response.sendRedirect("/ManageProduct");
             } else {
                 if (path.equals("/ManageProduct/Add")) {
@@ -90,7 +93,7 @@ public class ManageProductController extends HttpServlet {
                     List<Category> categories = dao.getAllCategories();
                     if (categories == null || categories.isEmpty()) {
                         // Nếu không có category, hiển thị thông báo và không cho phép thêm sản phẩm. Ở đây dùng session vì bên dưới dùng sendRedirect
-                        request.getSession().setAttribute("catError", "Bạn cần tạo danh mục trước khi thêm sản phẩm");
+                        request.getSession().setAttribute("msg", "Hệ thống hiện không có danh mục để tạo sản phẩm. Vui lòng tạo danh mục trong \"Quản lí danh mục\" trước.\n");
                         //Dùng sendRedirect thì URL sẽ không thay đổi
                         response.sendRedirect("/ManageProduct");
                     } else {
@@ -149,17 +152,17 @@ public class ManageProductController extends HttpServlet {
             // Kiểm tra giá sản phẩm
             double productPrice = 0;
             productPrice = Double.parseDouble(productPriceStr);
-            if (productPrice < 1000) {
-                String priceError = "(*)Giá sản phẩm phải từ 1000đ trở lên";
+            if (productPrice < 1) {
+                String priceError = "(*)Giá sản phẩm phải từ 1.000đ trở lên";
                 hasError = true;
                 request.getSession().setAttribute("priceError", priceError);
             }
             // Kiểm tra dung lượng file ảnh
             Part cover = request.getPart("txtProImg");
             long fileSize = cover.getSize();
-            long maxFileSize = 1024 * 1024 * 2; // Giới hạn file 1MB
+            long maxFileSize = 1024 * 1024 * 5; // Giới hạn file 1MB
             if (fileSize > maxFileSize) {
-                String fileError = "(*)Dung lượng ảnh không được vượt quá 2MB";
+                String fileError = "(*)Dung lượng ảnh không được vượt quá 5MB";
                 hasError = true;
                 request.getSession().setAttribute("fileError", fileError);
             }
@@ -173,6 +176,8 @@ public class ManageProductController extends HttpServlet {
                 ManageProductDAO dao = new ManageProductDAO();
                 int count = dao.addProduct(obj);
                 if (count > 0) {
+                    String msg = "Thêm sản phẩm thành công";
+                    request.getSession().setAttribute("msg", msg);
                     response.sendRedirect("/ManageProduct");
                 } else {
                     request.getRequestDispatcher("/ManageProduct/Add").forward(request, response);
@@ -201,7 +206,7 @@ public class ManageProductController extends HttpServlet {
             // Kiểm tra giá sản phẩm
             double productPrice = 0;
             productPrice = Double.parseDouble(productPriceStr);
-            if (productPrice < 1000) {
+            if (productPrice < 1) {
                 String priceError = "(*)Giá sản phẩm phải từ 1000đ trở lên";
                 hasError = true;
                 request.getSession().setAttribute("priceError", priceError);
@@ -209,7 +214,7 @@ public class ManageProductController extends HttpServlet {
             // Kiểm tra dung lượng file ảnh
             Part cover = request.getPart("txtProImg");
             long fileSize = cover.getSize();
-            long maxFileSize = 1024 * 1024 * 5; // Giới hạn file 5MB
+            long maxFileSize = 1024 * 1024 * 5; // Giới hạn file 2MB
             if (cover != null && fileSize > maxFileSize) {
                 String fileError = "(*)Dung lượng ảnh không được vượt quá 5MB";
                 hasError = true;
@@ -233,6 +238,8 @@ public class ManageProductController extends HttpServlet {
                 }
                 // Kiểm tra kết quả cập nhật
                 if (count > 0) {
+                    String msg = "Cập nhật sản phẩm thành công";
+                    request.getSession().setAttribute("msg", msg);
                     response.sendRedirect("/ManageProduct");
                 } else {
                     response.sendRedirect("/ManageProduct/Edit/" + productId);

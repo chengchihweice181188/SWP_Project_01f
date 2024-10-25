@@ -80,13 +80,13 @@
             <c:if test="${empty productList}">
                 <h2 class="no-product">Hiện không có sản phẩm nào</h2>
             </c:if> 
-            <c:if test="${not empty catError}">
+            <c:if test="${not empty msg}">
                 <div id="failureAlert" class="alert alert-success alert-dismissible alert-edit" role="alert">
-                    Hệ thống hiện không có danh mục để tạo sản phẩm. Vui lòng tạo danh mục trong "Quản lí danh mục" trước.
+                    ${msg}
                     <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">X</button>
                 </div>
                 <!--Xóa biến khỏi session-->
-                <c:remove var="catError" scope="session"/>
+                <c:remove var="msg" scope="session"/>
             </c:if>
             <a class="btn btn-success btn-add" href="/ManageProduct/Add">Thêm</a>
             <table id="table1" class="table table-striped">
@@ -111,7 +111,7 @@
                                     <img src="/ProductImg/${productVar.product_image}" alt="${productVar.product_name}" class="product-img">
                                 </td>
                                 <td>${productVar.product_description}</td>
-                                <td>${productVar.product_price}</td>
+                                <td>${String.format("%.3f", productVar.product_price)}</td>
                                 <td>${productVar.category_name}</td>
                                 <td>
                                     <a class="btn btn-primary btn-edit" href="/ManageProduct/Edit/${productVar.product_id}">Chỉnh sửa</a>

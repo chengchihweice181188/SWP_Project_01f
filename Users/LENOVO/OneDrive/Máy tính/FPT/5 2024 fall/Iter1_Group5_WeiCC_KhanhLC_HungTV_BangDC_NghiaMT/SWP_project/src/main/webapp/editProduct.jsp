@@ -95,7 +95,7 @@
                     </c:if>
                     <div class="row-edit">
                         <label for="txtProPrice">Giá (đ): &nbsp;</label>
-                        <input type="number" name="txtProPrice" class="txt-box" step="0.001" value="${product.product_price}" required/>
+                        <input type="number" name="txtProPrice" class="txt-box" step="0.001" value="${String.format("%.3f", product.product_price)}" required/>
                     </div>
                     <c:if test="${not empty fileError}">
                         <h4 class="h4-edit">${fileError}</h4>

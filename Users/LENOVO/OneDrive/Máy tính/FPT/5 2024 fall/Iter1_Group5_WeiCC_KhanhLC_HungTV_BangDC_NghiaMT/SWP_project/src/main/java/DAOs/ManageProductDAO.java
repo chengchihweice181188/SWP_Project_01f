@@ -111,6 +111,22 @@ public class ManageProductDAO {
         }
         return count;
     }
+    
+     public int deletePromotions(String productId) {
+        Connection conn = DBConnection.getConnection();
+        int count = 0;
+        try {
+            // Cập nhật tất cả các ProductOption liên quan
+            String updateProductOptionsSql = "UPDATE Promotions SET is_hidden = 1 WHERE product_id = ?";
+            PreparedStatement updateProductOptionsStmt = conn.prepareStatement(updateProductOptionsSql);
+            updateProductOptionsStmt.setString(1, productId);
+            count = updateProductOptionsStmt.executeUpdate();
+        } catch (Exception e) {
+            count = 0;
+            e.printStackTrace();
+        }
+        return count;
+    }
 
     public int addProduct(Product product) {
         Connection conn = null;
