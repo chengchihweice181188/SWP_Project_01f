@@ -41,19 +41,18 @@
             }
             .product-item {
                 width: 19%;/* Đặt độ rộng cho mỗi khối chiếm khoảng 1/4 dòng */
-                height: 331px;
+                height: 328px;
                 margin: 6px;
                 border: 2px solid #ccc;
                 border-radius: 7px;
                 background: white;
                 display: flex;
                 flex-direction: column; /* Chuyển trục chính thành dọc */
-                justify-content: space-around;
-
+                justify-content: space-between;
             }
             .img {
                 width: 100%;
-                height: 250px;
+                height: 228px;
                 object-fit: cover;
                 padding: 5px;
             }
@@ -86,7 +85,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 background: white;
-                border: 5px solid #ccc;
+                border: 2px solid #ccc;
                 border-radius: 10px;
                 z-index: 100; /* Đặt z-index 100 để nằm trên overlay */
             }
@@ -126,6 +125,10 @@
                 height: 225px;
                 object-fit: cover;
             }
+            .original-price{
+                text-align: center;
+                margin-bottom: 0px;
+            }
         </style>
         <script>
             function showPopup(image, name, description, price, productId) {
@@ -148,13 +151,13 @@
             function updatePrice(basePrice, productId, quantity, optionPriceAdjustment) {
                 // Chuyển đổi các giá trị đầu vào thành số nguyên để tính toán
                 var quantityValue = parseInt(quantity);
-                var optionPrice = parseInt(optionPriceAdjustment);
+                var optionPrice = parseFloat(optionPriceAdjustment);
                 // Đảm bảo rằng giá trị điều chỉnh của option là số, nếu không thì mặc định là 0
                 if (isNaN(optionPrice)) {
                     optionPrice = 0;
                 }
                 // Tính toán giá cuối cùng
-                var finalPrice = (parseInt(basePrice) + optionPrice) * quantityValue;
+                var finalPrice = (parseFloat(basePrice) + optionPrice) * quantityValue;
                 // Định dạng finalPrice thành chuỗi với 3 chữ số thập phân
                 var formattedPrice = finalPrice.toFixed(3);
                 // Cập nhật giá trị trong nút "Thêm" với định dạng 3 số thập phân
@@ -174,7 +177,7 @@
             </c:forEach>
         </div>
         <c:if test="${empty productList}">
-            <h2 class="no-product">Hiện không có sản phẩm nào trong mục này</h2>
+            <p class="no-product">Hiện không có sản phẩm nào trong mục này</p>
         </c:if>
         <div class="product-container">
             <c:if test="${!empty productList}">
@@ -182,18 +185,22 @@
                     <div class="product-item">
                         <img class="img" src="/ProductImg/${productVar.product_image}" alt="${productVar.product_name}">
                         <p class="product-name">${productVar.product_name}</p>
+                        <c:if test="${productVar.promotion_discount!=0}">
+                            <p class="original-price">Gốc: ${String.format("%.3f", productVar.product_price)}đ, giảm còn:</p>
+                        </c:if>
                         <!--truyền tham số vào để khi bấm sẽ hiện ra popup tương ứng-->
                         <button class="btn btn-success btn-edit" onclick="showPopup('${productVar.product_image}',
                                         '${productVar.product_name}',
                                         '${productVar.product_description}',
-                                        '${productVar.product_price}',
+                                        '${productVar.product_price - (productVar.product_price * (productVar.promotion_discount / 100))}đ',
                                         '${productVar.product_id}'
-                                        )">Chọn: ${String.format("%.3f", productVar.product_price)}đ</button>
+                                        )">Chọn: ${String.format("%.3f", productVar.product_price - (productVar.product_price * (productVar.promotion_discount / 100)))}đ</button>
                     </div>
                     <div class="pop-up row" id="popup_${productVar.product_id}" style="display:none;">
                         <div class="col">
                             <img class="img" id="popupImage_${productVar.product_id}" src="" alt="">
                             <p class="wrap-text product-name" id="popupName_${productVar.product_id}"></p>
+                            <p class="original-price"><< Giá: ${String.format("%.3f", productVar.product_price - (productVar.product_price * (productVar.promotion_discount / 100)))}đ >></p>
                             <p class="wrap-text" id="popupDescription_${productVar.product_id}"></p>
                         </div>
                         <div class="col detail">
@@ -201,13 +208,13 @@
                             <form action="/Cart" method="POST">
                                 Số lượng:
                                 <input type="number" class="full-width" id="popupQuantity_${productVar.product_id}" name="productQuantity" value="1" min="1" max="99" step="1" required onkeydown="return false;"
-                                       onchange="updatePrice('${productVar.product_price}',
+                                       onchange="updatePrice('${productVar.product_price - (productVar.product_price * (productVar.promotion_discount / 100))}',
                                                        '${productVar.product_id}',
                                                        this.value,
                                                        document.getElementById('popupOption_${productVar.product_id}').options[document.getElementById('popupOption_${productVar.product_id}').selectedIndex].getAttribute('data-price-adjustment'))"/><br>
                                 Tùy chỉnh:
                                 <select name="productOptionId" class="full-width" id="popupOption_${productVar.product_id}"
-                                        onchange="updatePrice('${productVar.product_price}',
+                                        onchange="updatePrice('${productVar.product_price - (productVar.product_price * (productVar.promotion_discount / 100))}đ',
                                                         '${productVar.product_id}',
                                                         document.getElementById('popupQuantity_${productVar.product_id}').value,
                                                         this.options[this.selectedIndex].getAttribute('data-price-adjustment'))">

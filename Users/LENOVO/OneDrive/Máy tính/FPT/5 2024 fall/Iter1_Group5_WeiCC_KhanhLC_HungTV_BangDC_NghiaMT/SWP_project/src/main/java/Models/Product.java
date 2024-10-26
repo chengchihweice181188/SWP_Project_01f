@@ -21,17 +21,27 @@ public class Product {
     private int is_hidden;
     private List<Option> options;
     private String category_name;
+    private int promotion_discount;
 
-    public Product(int product_id, String product_name, String product_description, double product_price, String product_image, int category_id, int is_hidden, List<Option> options, String category_name) {
+    public Product(int product_id, String product_name, String product_description, double product_price, String product_image, int category_id, int is_hidden, List<Option> options, String category_name, int promotion_discount) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_description = product_description;
         this.product_price = product_price;
         this.product_image = product_image;
         this.category_id = category_id;
+        this.promotion_discount = promotion_discount;
         this.is_hidden = is_hidden;
         this.options = options;
         this.category_name = category_name;
+    }
+
+    public int getPromotion_discount() {
+        return promotion_discount;
+    }
+
+    public void setPromotion_discount(int promotion_discount) {
+        this.promotion_discount = promotion_discount;
     }
 
     public String getCategory_name() {
@@ -144,5 +154,4 @@ public class Product {
         this.category_id = category_id;
     }
 
-    
 }

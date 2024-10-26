@@ -55,34 +55,38 @@ public class ViewCategoryDAO {
             try {
                 if (categoryId.equals("-1")) {
                     query = "SELECT p.product_id, p.product_name, p.product_description, p.product_image, "
-                            + "p.product_price, o.option_id, o.option_name, o.price_adjustment "
+                            + "p.product_price, o.option_id, o.option_name, o.price_adjustment, "
+                            + "pr.promotion_discount "
                             + "FROM Products p "
                             + "LEFT JOIN ProductOptions po ON p.product_id = po.product_id "
                             + "LEFT JOIN Options o ON po.option_id = o.option_id "
+                            + "LEFT JOIN Promotions pr ON p.product_id = pr.product_id AND pr.is_hidden = 0 "
+                            + "AND GETDATE() BETWEEN pr.promotion_valid_from AND pr.promotion_valid_to "
                             + "WHERE p.is_hidden = 0 "
                             + "ORDER BY p.product_id DESC ";
                     ps = conn.prepareStatement(query);
                 } else {
                     query = "SELECT p.product_id, p.product_name, p.product_description, p.product_image, "
-                            + "p.product_price, o.option_id, o.option_name, o.price_adjustment "
+                            + "p.product_price, o.option_id, o.option_name, o.price_adjustment, "
+                            + "pr.promotion_discount "
                             + "FROM Products p "
                             + "LEFT JOIN ProductOptions po ON p.product_id = po.product_id "
                             + "LEFT JOIN Options o ON po.option_id = o.option_id "
+                            + "LEFT JOIN Promotions pr ON p.product_id = pr.product_id AND pr.is_hidden = 0 "
+                            + "AND GETDATE() BETWEEN pr.promotion_valid_from AND pr.promotion_valid_to "
                             + "WHERE p.is_hidden = 0 AND p.category_id = ? "
                             + "ORDER BY p.product_id DESC ";
                     ps = conn.prepareStatement(query);
                     ps.setString(1, categoryId);
                 }
                 ResultSet rs = ps.executeQuery();
-                //Dòng này để giúp so sánh bên dưới luôn lấy sản phẩm mới khi gom các option lại thành 1 nhóm.
                 int currentProductId = -1;
                 Product productVar = null;
                 while (rs.next()) {
                     int productId = rs.getInt("product_id");
-                    // Nếu đây là sản phẩm mới, tạo một đối tượng Product mới
                     if (productId != currentProductId) {
                         if (productVar != null) {
-                            products.add(productVar); // Thêm sản phẩm trước đó vào danh sách
+                            products.add(productVar);
                         }
                         productVar = new Product();
                         productVar.setProduct_id(productId);
@@ -90,20 +94,24 @@ public class ViewCategoryDAO {
                         productVar.setProduct_description(rs.getString("product_description"));
                         productVar.setProduct_image(rs.getString("product_image"));
                         productVar.setProduct_price(rs.getDouble("product_price"));
-                        productVar.setOptions(new ArrayList<Option>()); // Khởi tạo danh sách option cho sản phẩm
+                        productVar.setOptions(new ArrayList<Option>());
+                        // Kiểm tra nếu promotion_discount không phải null, chỉ gán khi có giá trị
+                        int promotion_discount = rs.getInt("promotion_discount");
+                        if (!rs.wasNull()) {
+                            productVar.setPromotion_discount(promotion_discount);
+                        }
                         currentProductId = productId;
                     }
-                    // Nếu có option (option_id không null), thêm vào danh sách option của sản phẩm
+                    // Thêm option vào danh sách của sản phẩm (nếu có)
                     int optionId = rs.getInt("option_id");
                     if (optionId != 0) {
                         Option option = new Option();
                         option.setOption_id(optionId);
                         option.setOption_name(rs.getString("option_name"));
-                        option.setPrice_adjustment(rs.getInt("price_adjustment"));
-                        productVar.getOptions().add(option); // Thêm option vào danh sách của sản phẩm
+                        option.setPrice_adjustment(rs.getFloat("price_adjustment"));
+                        productVar.getOptions().add(option);
                     }
                 }
-                // Thêm sản phẩm cuối cùng vào danh sách (nếu có)
                 if (productVar != null) {
                     products.add(productVar);
                 }
